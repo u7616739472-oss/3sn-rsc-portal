@@ -12,7 +12,8 @@ export default function RootLayout({
           margin: 0,
           padding: 0,
           minHeight: '100vh',
-          color: '#000',
+          background: 'linear-gradient(135deg, #000000 0%, #0a4a4a 50%, #000000 100%)',
+          color: '#ffffff',
           fontFamily: 'system-ui, -apple-system, sans-serif',
         }}
       >
@@ -30,10 +31,10 @@ export default function RootLayout({
             height: '100%',
             objectFit: 'cover',
             zIndex: -1,
-            opacity: 0.3,
+            opacity: 0.4,
           }}
         >
-          <source src="https://assets.mixkit.co/videos/preview/mixkit-people-working-together-in-a-modern-office-4995-large.mp4" type="video/mp4" />
+          <source src="https://assets.mixkit.co/videos/preview/mixkit-polygonal-glow-background-317.mp4" type="video/mp4" />
         </video>
 
         {/* Overlay for better text readability */}
@@ -44,7 +45,7 @@ export default function RootLayout({
             left: 0,
             width: '100%',
             height: '100%',
-            background: 'rgba(255, 255, 255, 0.85)',
+            background: 'rgba(0, 0, 0, 0.5)',
             zIndex: -1,
           }}
         />
@@ -55,10 +56,11 @@ export default function RootLayout({
             position: 'sticky',
             top: 0,
             zIndex: 1000,
-            background: '#fff',
-            borderBottom: '3px solid #22d3ee',
+            background: 'rgba(0, 0, 0, 0.85)',
+            backdropFilter: 'blur(10px)',
+            borderBottom: '2px solid #00d4ff',
             padding: '1rem 2rem',
-            boxShadow: '0 2px 10px rgba(0, 0, 0, 0.1)',
+            boxShadow: '0 4px 20px rgba(0, 212, 255, 0.3)',
           }}
         >
           <div
@@ -81,7 +83,7 @@ export default function RootLayout({
               }}
             >
               <img
-                src="/logo.jpg"
+                src="/logo.png"
                 alt="Portal RSC 3SN"
                 style={{
                   height: '50px',
@@ -108,13 +110,13 @@ export default function RootLayout({
                     href="/"
                     style={{
                       textDecoration: 'none',
-                      color: '#000',
+                      color: '#ffffff',
                       fontSize: '1rem',
                       fontWeight: 500,
                       transition: 'color 0.3s ease',
                     }}
-                    onMouseOver={(e) => (e.currentTarget.style.color = '#22d3ee')}
-                    onMouseOut={(e) => (e.currentTarget.style.color = '#000')}
+                    onMouseOver={(e) => (e.currentTarget.style.color = '#00d4ff')}
+                    onMouseOut={(e) => (e.currentTarget.style.color = '#ffffff')}
                   >
                     Inicio
                   </a>
@@ -124,13 +126,13 @@ export default function RootLayout({
                     href="/busqueda"
                     style={{
                       textDecoration: 'none',
-                      color: '#000',
+                      color: '#ffffff',
                       fontSize: '1rem',
                       fontWeight: 500,
                       transition: 'color 0.3s ease',
                     }}
-                    onMouseOver={(e) => (e.currentTarget.style.color = '#22d3ee')}
-                    onMouseOut={(e) => (e.currentTarget.style.color = '#000')}
+                    onMouseOver={(e) => (e.currentTarget.style.color = '#00d4ff')}
+                    onMouseOut={(e) => (e.currentTarget.style.color = '#ffffff')}
                   >
                     Búsqueda
                   </a>
@@ -140,13 +142,13 @@ export default function RootLayout({
                     href="/financiador"
                     style={{
                       textDecoration: 'none',
-                      color: '#000',
+                      color: '#ffffff',
                       fontSize: '1rem',
                       fontWeight: 500,
                       transition: 'color 0.3s ease',
                     }}
-                    onMouseOver={(e) => (e.currentTarget.style.color = '#22d3ee')}
-                    onMouseOut={(e) => (e.currentTarget.style.color = '#000')}
+                    onMouseOver={(e) => (e.currentTarget.style.color = '#00d4ff')}
+                    onMouseOut={(e) => (e.currentTarget.style.color = '#ffffff')}
                   >
                     Financiadores
                   </a>
@@ -156,13 +158,13 @@ export default function RootLayout({
                     href="/ongd"
                     style={{
                       textDecoration: 'none',
-                      color: '#000',
+                      color: '#ffffff',
                       fontSize: '1rem',
                       fontWeight: 500,
                       transition: 'color 0.3s ease',
                     }}
-                    onMouseOver={(e) => (e.currentTarget.style.color = '#22d3ee')}
-                    onMouseOut={(e) => (e.currentTarget.style.color = '#000')}
+                    onMouseOver={(e) => (e.currentTarget.style.color = '#00d4ff')}
+                    onMouseOut={(e) => (e.currentTarget.style.color = '#ffffff')}
                   >
                     ONGDs
                   </a>
@@ -185,10 +187,12 @@ export default function RootLayout({
         {/* Footer */}
         <footer
           style={{
-            background: '#000',
+            background: 'rgba(0, 0, 0, 0.9)',
+            backdropFilter: 'blur(10px)',
             color: '#fff',
             padding: '3rem 2rem',
             marginTop: 'auto',
+            borderTop: '2px solid #00d4ff',
           }}
         >
           <div
@@ -203,7 +207,7 @@ export default function RootLayout({
             {/* Logo & Description */}
             <div>
               <img
-                src="/logo.jpg"
+                src="/logo.png"
                 alt="Portal RSC 3SN"
                 style={{
                   height: '60px',
@@ -223,7 +227,7 @@ export default function RootLayout({
                 style={{
                   fontSize: '1.1rem',
                   marginBottom: '1rem',
-                  color: '#22d3ee',
+                  color: '#00d4ff',
                 }}
               >
                 Enlaces Rápidos
@@ -304,7 +308,7 @@ export default function RootLayout({
                 style={{
                   fontSize: '1.1rem',
                   marginBottom: '1rem',
-                  color: '#22d3ee',
+                  color: '#00d4ff',
                 }}
               >
                 Contacto
@@ -322,7 +326,7 @@ export default function RootLayout({
               maxWidth: '1200px',
               margin: '2rem auto 0',
               paddingTop: '2rem',
-              borderTop: '1px solid rgba(34, 211, 238, 0.3)',
+              borderTop: '1px solid rgba(0, 212, 255, 0.3)',
               textAlign: 'center',
               fontSize: '0.85rem',
               opacity: 0.8,
