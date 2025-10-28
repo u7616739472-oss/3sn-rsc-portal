@@ -1,9 +1,6 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   // Configuración optimizada para Vercel
-  experimental: {
-    appDir: true,
-  },
   
   // Configuración de imágenes
   images: {
@@ -27,7 +24,6 @@ const nextConfig = {
       fs: false,
       net: false,
       tls: false,
-      crypto: require.resolve('crypto-browserify'),
       stream: require.resolve('stream-browserify'),
       url: require.resolve('url'),
       zlib: require.resolve('browserify-zlib'),
@@ -36,30 +32,23 @@ const nextConfig = {
       assert: require.resolve('assert'),
       os: require.resolve('os-browserify/browser'),
       path: require.resolve('path-browserify'),
+      util: require.resolve('util/'),
     }
     
-    config.plugins.push(
-      new webpack.ProvidePlugin({
-        process: 'process/browser',
-        Buffer: ['buffer', 'Buffer'],
-      })
-    )
+    // Importante para evitar problemas con módulos binarios
+    config.module.rules.push({
+      test: /\.node$/,
+      use: 'node-loader',
+    })
     
     return config
-  },
-  
-  // Variables de entorno públicas
-  env: {
-    CUSTOM_KEY: process.env.CUSTOM_KEY,
-    PROJECT_NAME: '3SN RSC Portal',
-    PROJECT_VERSION: '0.1.0',
   },
   
   // Configuración de headers para seguridad
   async headers() {
     return [
       {
-        source: '/(.*)',
+        source: '/:path*',
         headers: [
           {
             key: 'X-Frame-Options',
@@ -69,38 +58,23 @@ const nextConfig = {
             key: 'X-Content-Type-Options',
             value: 'nosniff',
           },
-          {
-            key: 'Referrer-Policy',
-            value: 'origin-when-cross-origin',
-          },
         ],
       },
     ]
   },
   
-  // Redirects para mejor SEO
-  async redirects() {
-    return [
-      // Redirect de rutas legacy si las hubiera
-      {
-        source: '/home',
-        destination: '/',
-        permanent: true,
-      },
-    ]
+  // Configuración de variables de entorno
+  env: {
+    NEXT_PUBLIC_SUPABASE_URL: process.env.NEXT_PUBLIC_SUPABASE_URL,
+    NEXT_PUBLIC_SUPABASE_ANON_KEY: process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY,
   },
   
-  // Configuración de compilación
-  compiler: {
-    // Eliminación de console.log en producción
-    removeConsole: process.env.NODE_ENV === 'production',
-  },
+  // Optimizaciones de producción
+  swcMinify: true,
+  compress: true,
   
-  // Configuración para i18n futuro
-  i18n: {
-    locales: ['es', 'en', 'ca'],
-    defaultLocale: 'es',
-  },
+  // Optimización de fuentes
+  optimizeFonts: true,
 }
 
 module.exports = nextConfig
