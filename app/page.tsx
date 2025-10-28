@@ -1,129 +1,244 @@
 'use client'
-import Link from 'next/link'
-import { Globe, Search, Building2, TrendingUp, Shield, Rocket } from 'lucide-react'
+import { Shield, Rocket, TrendingUp } from 'lucide-react'
 
 export default function HomePage() {
   return (
-    <main className="min-h-screen text-white">
-      {/* Hero Section */}
-      <section className="relative overflow-hidden">
-        {/* Animated background blobs */}
-        <div className="absolute inset-0 opacity-20">
-          <div className="absolute top-20 left-20 w-72 h-72 bg-cyan-500/30 rounded-full blur-3xl animate-pulse" />
-          <div className="absolute bottom-20 right-20 w-96 h-96 bg-blue-600/20 rounded-full blur-3xl animate-pulse delay-700" />
-        </div>
-        <div className="relative mx-auto max-w-6xl px-4 py-20 sm:py-32">
-          {/* Brand pill */}
-          <div className="text-center mb-8">
-            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-cyan-500/10 border border-cyan-500/20 mb-6">
-              <Globe className="w-5 h-5 text-cyan-400" />
-              <span className="text-cyan-300 font-semibold">3SN Portal RSC</span>
-            </div>
-          </div>
-          {/* Title */}
-          <h1 className="text-center text-4xl sm:text-6xl font-bold mb-6 bg-gradient-to-r from-cyan-200 via-blue-300 to-purple-300 bg-clip-text text-transparent">
+    <main style={{ minHeight: '100vh', color: '#FFFFFF' }}>
+      {/* Hero Section with centered logo and tagline */}
+      <section style={{ position: 'relative', overflow: 'hidden' }}>
+        {/* Mobile-friendly loop video as background (muted) */}
+        <video
+          autoPlay
+          loop
+          muted
+          playsInline
+          style={{
+            position: 'absolute',
+            top: 0,
+            left: 0,
+            width: '100%',
+            height: '100%',
+            objectFit: 'cover',
+            zIndex: 0,
+            opacity: 0.2,
+          }}
+        >
+          <source src="https://assets.mixkit.co/videos/preview/mixkit-futuristic-data-49138-large.mp4" type="video/mp4" />
+        </video>
+
+        <div
+          style={{
+            position: 'relative',
+            zIndex: 1,
+            maxWidth: '1100px',
+            margin: '0 auto',
+            padding: '6rem 1.25rem 4rem',
+            textAlign: 'center',
+          }}
+        >
+          <img
+            src="/logo-portal.jpg"
+            alt="3SN Portal"
+            style={{ height: 80, width: 'auto', margin: '0 auto 1rem' }}
+          />
+          <h1
+            style={{
+              fontSize: 'clamp(2rem, 3.5vw, 3.5rem)',
+              fontWeight: 800,
+              marginBottom: '0.75rem',
+              color: '#FFFFFF',
+            }}
+          >
             Conectando Impacto Social con Financiación Sostenible
           </h1>
-          <p className="text-center text-lg sm:text-xl text-slate-200 max-w-3xl mx-auto mb-12">
-            Plataforma integral para ONGDs y financiadores que transforma proyectos sociales en
-            oportunidades de inversión con impacto medible y trazabilidad completa.
+          <p
+            style={{
+              color: '#CCCCCC',
+              fontSize: 'clamp(1rem, 2vw, 1.25rem)',
+              maxWidth: 820,
+              margin: '0 auto 1.5rem',
+              lineHeight: 1.6,
+            }}
+          >
+            Plataforma integral para ONGDs y financiadores: proyectos con impacto medible, trazabilidad total y confianza.
           </p>
 
-          {/* Stats */}
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-16 max-w-4xl mx-auto">
-            <div className="bg-white/5 backdrop-blur border border-cyan-500/20 rounded-xl p-6 text-center">
-              <TrendingUp className="w-8 h-8 text-cyan-300 mx-auto mb-2" />
-              <div className="text-3xl font-bold text-cyan-200">150+</div>
-              <div className="text-slate-300 text-sm">Proyectos Activos</div>
-            </div>
-            <div className="bg-white/5 backdrop-blur border border-blue-500/20 rounded-xl p-6 text-center">
-              <Building2 className="w-8 h-8 text-blue-300 mx-auto mb-2" />
-              <div className="text-3xl font-bold text-blue-200">80+</div>
-              <div className="text-slate-300 text-sm">Financiadores</div>
-            </div>
-            <div className="bg-white/5 backdrop-blur border border-purple-500/20 rounded-xl p-6 text-center">
-              <Shield className="w-8 h-8 text-purple-300 mx-auto mb-2" />
-              <div className="text-3xl font-bold text-purple-200">95%</div>
-              <div className="text-slate-300 text-sm">Proyectos con KPIs</div>
-            </div>
-          </div>
-
-          {/* CTA */}
-          <div className="flex justify-center gap-4">
-            <Link href="/busqueda" className="px-5 py-3 rounded-lg bg-cyan-500/20 border border-cyan-500/30 text-cyan-100 hover:bg-cyan-500/30">
-              Explorar Proyectos
-            </Link>
-            <Link href="/financiador" className="px-5 py-3 rounded-lg bg-blue-500/20 border border-blue-500/30 text-blue-100 hover:bg-blue-500/30">
-              Soy Financiador
-            </Link>
-          </div>
-        </div>
-      </section>
-
-      {/* Sections */}
-      <section className="mx-auto max-w-6xl px-4 py-16">
-        <h2 className="text-2xl font-semibold mb-6 text-cyan-200">Destacados</h2>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          {[1, 2, 3].map((i) => (
-            <div
-              key={i}
-              className="relative bg-white/10 backdrop-blur-xl border border-white/20 rounded-2xl p-6 shadow-lg shadow-cyan-900/20"
+          <div style={{ display: 'flex', gap: '1rem', justifyContent: 'center', flexWrap: 'wrap' }}>
+            <a
+              href="#pilares"
+              style={{
+                background: '#FF9900',
+                color: '#000000',
+                padding: '0.75rem 1.25rem',
+                borderRadius: 10,
+                textDecoration: 'none',
+                fontWeight: 700,
+              }}
             >
-              <div className="absolute -top-3 -right-3 bg-cyan-500 text-slate-900 text-xs font-bold px-2 py-1 rounded-full">
-                Nuevo
-              </div>
-              <div className="flex items-center gap-3 mb-3">
-                <Rocket className="w-5 h-5 text-cyan-300" />
-                <span className="text-slate-100 font-medium">Proyecto #{i}</span>
-              </div>
-              <p className="text-slate-300 text-sm mb-4">
-                Iniciativa con alto impacto social en sostenibilidad, educación y comunidad.
-              </p>
-              <div className="flex items-center gap-2 text-xs">
-                <span className="px-2 py-1 rounded bg-cyan-500/10 border border-cyan-500/20 text-cyan-200">
-                  Educación
-                </span>
-                <span className="px-2 py-1 rounded bg-blue-500/10 border border-blue-500/20 text-blue-200">
-                  Sostenible
-                </span>
-                <span className="px-2 py-1 rounded bg-purple-500/10 border border-purple-500/20 text-purple-200">
-                  KPI
-                </span>
-              </div>
-            </div>
-          ))}
+              Explorar pilares
+            </a>
+            <a
+              href="#contacto"
+              style={{
+                border: '1px solid #FF9900',
+                color: '#FFFFFF',
+                padding: '0.75rem 1.25rem',
+                borderRadius: 10,
+                textDecoration: 'none',
+                fontWeight: 600,
+              }}
+            >
+              Hablar con 3SN
+            </a>
+          </div>
         </div>
       </section>
 
-      {/* Separator */}
-      <div className="mx-auto max-w-6xl px-4">
-        <div className="h-px bg-gradient-to-r from-transparent via-cyan-500/30 to-transparent" />
-      </div>
+      {/* Vertical stacked cards for the 3 pillars using glassmorphism */}
+      <section id="pilares" style={{ maxWidth: 1100, margin: '0 auto', padding: '2rem 1.25rem 4rem' }}>
+        <div style={{ display: 'grid', gap: '1.25rem' }}>
+          {/* Pilar 1 */}
+          <div
+            style={{
+              background: 'rgba(255,255,255,0.04)',
+              border: '1px solid rgba(255,153,0,0.25)',
+              borderRadius: 16,
+              padding: '1.25rem',
+              backdropFilter: 'blur(12px)',
+              boxShadow: '0 10px 30px rgba(0,0,0,0.35)',
+              display: 'grid',
+              gridTemplateColumns: 'auto 1fr',
+              gap: '0.75rem 1rem',
+              alignItems: 'center',
+            }}
+          >
+            <div
+              style={{
+                width: 56,
+                height: 56,
+                borderRadius: 12,
+                display: 'grid',
+                placeItems: 'center',
+                background: 'linear-gradient(145deg, rgba(255,153,0,0.2), rgba(255,153,0,0.05))',
+                border: '1px solid rgba(255,153,0,0.35)',
+                color: '#FF9900',
+              }}
+            >
+              <Shield size={28} />
+            </div>
+            <div>
+              <h3 style={{ margin: 0, fontSize: 20, color: '#FFFFFF' }}>Transparencia y Confianza</h3>
+              <p style={{ margin: '0.25rem 0 0', color: '#CCCCCC' }}>
+                Trazabilidad completa en la cadena de valor con registros inmutables y auditorías simplificadas.
+              </p>
+            </div>
+          </div>
 
-      <section className="mx-auto max-w-6xl px-4 py-16">
-        <h2 className="text-2xl font-semibold mb-6 text-cyan-200">Secciones</h2>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          <Link href="/busqueda" className="group rounded-2xl p-6 border border-white/15 bg-white/5 backdrop-blur hover:bg-white/10 transition">
-            <div className="flex items-center gap-3 mb-2">
-              <Search className="w-5 h-5 text-cyan-300" />
-              <span className="text-slate-100 font-medium">Búsqueda</span>
+          {/* Pilar 2 */}
+          <div
+            style={{
+              background: 'rgba(255,255,255,0.04)',
+              border: '1px solid rgba(255,153,0,0.25)',
+              borderRadius: 16,
+              padding: '1.25rem',
+              backdropFilter: 'blur(12px)',
+              boxShadow: '0 10px 30px rgba(0,0,0,0.35)',
+              display: 'grid',
+              gridTemplateColumns: 'auto 1fr',
+              gap: '0.75rem 1rem',
+              alignItems: 'center',
+            }}
+          >
+            <div
+              style={{
+                width: 56,
+                height: 56,
+                borderRadius: 12,
+                display: 'grid',
+                placeItems: 'center',
+                background: 'linear-gradient(145deg, rgba(255,153,0,0.2), rgba(255,153,0,0.05))',
+                border: '1px solid rgba(255,153,0,0.35)',
+                color: '#FF9900',
+              }}
+            >
+              <TrendingUp size={28} />
             </div>
-            <p className="text-slate-300 text-sm">Explora proyectos por área, impacto y necesidades.</p>
-          </Link>
-          <Link href="/ongd" className="group rounded-2xl p-6 border border-white/15 bg-white/5 backdrop-blur hover:bg-white/10 transition">
-            <div className="flex items-center gap-3 mb-2">
-              <Shield className="w-5 h-5 text-green-300" />
-              <span className="text-slate-100 font-medium">ONGDs</span>
+            <div>
+              <h3 style={{ margin: 0, fontSize: 20, color: '#FFFFFF' }}>Impacto Medible</h3>
+              <p style={{ margin: '0.25rem 0 0', color: '#CCCCCC' }}>
+                KPIs alineados a estándares ESG y ODS, con paneles de control y reportes automáticos.
+              </p>
             </div>
-            <p className="text-slate-300 text-sm">Directorio de organizaciones con verificación y métricas.</p>
-          </Link>
-          <Link href="/financiador" className="group rounded-2xl p-6 border border-white/15 bg-white/5 backdrop-blur hover:bg-white/10 transition">
-            <div className="flex items-center gap-3 mb-2">
-              <Building2 className="w-5 h-5 text-blue-300" />
-              <span className="text-slate-100 font-medium">Financiadores</span>
+          </div>
+
+          {/* Pilar 3 */}
+          <div
+            style={{
+              background: 'rgba(255,255,255,0.04)',
+              border: '1px solid rgba(255,153,0,0.25)',
+              borderRadius: 16,
+              padding: '1.25rem',
+              backdropFilter: 'blur(12px)',
+              boxShadow: '0 10px 30px rgba(0,0,0,0.35)',
+              display: 'grid',
+              gridTemplateColumns: 'auto 1fr',
+              gap: '0.75rem 1rem',
+              alignItems: 'center',
+            }}
+          >
+            <div
+              style={{
+                width: 56,
+                height: 56,
+                borderRadius: 12,
+                display: 'grid',
+                placeItems: 'center',
+                background: 'linear-gradient(145deg, rgba(255,153,0,0.2), rgba(255,153,0,0.05))',
+                border: '1px solid rgba(255,153,0,0.35)',
+                color: '#FF9900',
+              }}
+            >
+              <Rocket size={28} />
             </div>
-            <p className="text-slate-300 text-sm">Programas de financiación y convocatorias activas.</p>
-          </Link>
+            <div>
+              <h3 style={{ margin: 0, fontSize: 20, color: '#FFFFFF' }}>Eficiencia de Financiación</h3>
+              <p style={{ margin: '0.25rem 0 0', color: '#CCCCCC' }}>
+                Puentes entre ONGDs y financiadores con scoring de proyectos y desembolsos por hitos.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* CTA inferior */}
+      <section id="contacto" style={{ maxWidth: 1100, margin: '0 auto', padding: '0 1.25rem 4rem' }}>
+        <div
+          style={{
+            borderRadius: 16,
+            padding: '1.25rem',
+            background: 'linear-gradient(135deg, rgba(255,153,0,0.15), rgba(255,153,0,0.05))',
+            border: '1px solid rgba(255,153,0,0.3)',
+            textAlign: 'center',
+          }}
+        >
+          <h3 style={{ margin: 0, fontSize: 20, color: '#FFFFFF' }}>¿Listo para impulsar tu impacto?</h3>
+          <p style={{ margin: '0.5rem 0 1rem', color: '#4A4A4A' }}>
+            Descubre cómo 3SN acelera la colaboración con transparencia y resultados.
+          </p>
+          <a
+            href="mailto:contacto@3sn.org"
+            style={{
+              display: 'inline-block',
+              background: '#FF9900',
+              color: '#000000',
+              padding: '0.75rem 1.25rem',
+              borderRadius: 10,
+              textDecoration: 'none',
+              fontWeight: 700,
+            }}
+          >
+            Solicitar demo
+          </a>
         </div>
       </section>
     </main>
