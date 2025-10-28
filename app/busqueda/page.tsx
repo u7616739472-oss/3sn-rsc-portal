@@ -107,7 +107,7 @@ export default function BusquedaPage({ searchParams }: SearchPageProps) {
         {/* Floating categories chips (from results) */}
         <div className="sticky top-4 z-10 mb-8 backdrop-blur supports-[backdrop-filter]:bg-white/60 bg-white/40 border border-white/40 shadow rounded-2xl p-3">
           <div className="flex flex-wrap gap-2">
-            {[...new Set(proyectosEjemplo.map((p) => p.categoria))].map((cat) => (
+            {Array.from(new Set(proyectosEjemplo.map((p) => p.categoria))).map((cat) => (
               <span key={cat} className="inline-flex items-center gap-2 px-3 py-1 rounded-xl text-sm bg-white text-gray-700 border border-gray-200">
                 {categoryIcons[cat] ?? '🏷️'}
                 {cat}
