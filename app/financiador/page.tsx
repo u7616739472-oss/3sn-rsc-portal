@@ -1,146 +1,83 @@
 'use client'
-import { useMemo, useState } from 'react'
 import Link from 'next/link'
-import { Globe, ArrowLeft, Search, Euro, Users, CheckCircle2, XCircle } from 'lucide-react'
+import Image from 'next/image'
+import { Euro, Users, CheckCircle2, XCircle, ArrowRight } from 'lucide-react'
 
-type Tarea = { id: string; nombre: string; costeEstimado: number }
-type Proyecto = {
-  id: string
-  nombre: string
-  problemaPrincipal: string
-  solucionPrincipal: string
-  tareas: Tarea[]
-  financiador?: string | null
-  emailContacto?: string
-  lineasFinanciacion?: string[]
+function Layout({ children }: { children: React.ReactNode }) {
+  return (
+    <div className="relative min-h-screen w-full overflow-x-hidden bg-black text-white">
+      <video autoPlay muted loop playsInline className="fixed inset-0 h-full w-full object-cover opacity-30" src="/video/bg-loop.mp4" />
+      <div className="pointer-events-none fixed inset-0 bg-gradient-to-b from-black/50 via-black/20 to-black/80" />
+      <header className="relative z-20 w-full">
+        <div className="mx-auto flex max-w-7xl items-center justify-between px-6 py-4">
+          <Link href="/" className="flex items-center gap-3">
+            <Image src="/logo.svg" alt="3SN" width={36} height={36} className="drop-shadow-lg" />
+            <span className="text-lg font-semibold tracking-tight">3SN</span>
+          </Link>
+          <nav className="hidden gap-6 md:flex">
+            <Link href="/busqueda" className="text-sm text-white/80 hover:text-white">Búsqueda</Link>
+            <Link href="/financiador" className="text-sm text-white/80 hover:text-white">Financiador</Link>
+            <Link href="/ongd" className="text-sm text-white/80 hover:text-white">ONGD</Link>
+          </nav>
+        </div>
+      </header>
+      <main className="relative z-10 mx-auto w-full max-w-7xl px-6 pb-24 pt-8 md:pt-16">{children}</main>
+      <footer className="relative z-20 border-t border-white/10 bg-black/30 backdrop-blur supports-[backdrop-filter]:bg-black/30">
+        <div className="mx-auto flex max-w-7xl items-center justify-between px-6 py-6">
+          <Link href="/" className="flex items-center gap-2 text-white/70 hover:text-white">
+            <Image src="/logo.svg" alt="3SN" width={24} height={24} />
+            <span className="text-sm">© {new Date().getFullYear()} 3SN</span>
+          </Link>
+          <div className="flex items-center gap-4 text-xs text-white/60"><span>Privacidad</span><span>Términos</span></div>
+        </div>
+      </footer>
+    </div>
+  )
 }
 
-const proyectosMock: Proyecto[] = [
-  {
-    id: 'p1',
-    nombre: 'Educación Sostenible en Comunidades Rurales',
-    problemaPrincipal: 'Bajo acceso a educación ambiental en zonas rurales',
-    solucionPrincipal: 'Programa de capacitación docente y talleres comunitarios',
-    tareas: [
-      { id: 't1', nombre: 'Formación de 20 docentes', costeEstimado: 6000 },
-      { id: 't2', nombre: 'Talleres a 300 familias', costeEstimado: 8000 },
-      { id: 't3', nombre: 'Materiales y kits educativos', costeEstimado: 4000 },
-    ],
-    financiador: null,
-    emailContacto: 'contacto@ongd.org',
-    lineasFinanciacion: ['Educación', 'ODS4', 'Rural'],
-  },
-  {
-    id: 'p2',
-    nombre: 'Acceso a Agua Limpia - Región Sierra',
-    problemaPrincipal: 'Contaminación de fuentes de agua locales',
-    solucionPrincipal: 'Instalación de sistemas de filtración comunitaria',
-    tareas: [
-      { id: 't1', nombre: 'Estudio de calidad de agua', costeEstimado: 3000 },
-      { id: 't2', nombre: 'Compra de filtros y repuestos', costeEstimado: 9000 },
-      { id: 't3', nombre: 'Capacitación de comités de agua', costeEstimado: 3500 },
-    ],
-    financiador: 'Fundación Aqua',
-    emailContacto: 'agua@ongd.org',
-    lineasFinanciacion: ['Agua', 'Salud', 'ODS6'],
-  },
-  {
-    id: 'p3',
-    nombre: 'Economía Circular en Barrios Urbanos',
-    problemaPrincipal: 'Baja tasa de reciclaje y educación ambiental',
-    solucionPrincipal: 'Incentivos y campañas de reciclaje con comercios locales',
-    tareas: [
-      { id: 't1', nombre: 'Campaña de sensibilización', costeEstimado: 2500 },
-      { id: 't2', nombre: 'App de incentivos y tokens', costeEstimado: 7000 },
-      { id: 't3', nombre: 'Puntos de reciclaje inteligentes', costeEstimado: 10000 },
-    ],
-    financiador: null,
-    emailContacto: 'reciclaje@ongd.org',
-    lineasFinanciacion: ['Reciclaje', 'ODS12', 'Urbano'],
-  },
+const oportunidades = [
+  { id: 'f1', titulo: 'Convocatoria Impacto Social 2025', entidad: 'Fundación Horizonte', importe: '50.000€', estado: 'Abierta' },
+  { id: 'f2', titulo: 'Innovación en Salud Comunitaria', entidad: 'Agencia Salud+', importe: '120.000€', estado: 'Próxima' },
+  { id: 'f3', titulo: 'Educación Digital Rural', entidad: 'Programa EduTech', importe: '80.000€', estado: 'Abierta' },
 ]
 
 export default function FinanciadorPage() {
-  const totalPresupuesto = useMemo(
-    () => proyectosMock.reduce((acc, p) => acc + p.tareas.reduce((a, t) => a + t.costeEstimado, 0), 0),
-    []
-  )
-
   return (
-    <main className="mx-auto max-w-6xl px-4 py-10 text-white">
-      <div className="flex items-center justify-between mb-6">
-        <h1 className="text-3xl font-bold">Financiadores</h1>
-        <Link href="/" className="text-cyan-200 hover:text-cyan-100 text-sm inline-flex items-center gap-1">
-          <ArrowLeft className="w-4 h-4" /> Volver
-        </Link>
-      </div>
+    <Layout>
+      <section className="mb-8 flex items-center justify-between">
+        <h1 className="text-2xl font-semibold tracking-tight text-white">Financiador</h1>
+      </section>
 
-      {/* Overview cards */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-10">
-        <div className="rounded-xl p-5 bg-white/10 backdrop-blur border border-white/15">
-          <Euro className="w-5 h-5 text-cyan-300" />
-          <div className="mt-2 text-2xl font-semibold text-cyan-100">
-            € {totalPresupuesto.toLocaleString('es-ES')}
-          </div>
-          <div className="text-slate-300 text-sm">Presupuesto total requerido</div>
-        </div>
-        <div className="rounded-xl p-5 bg-white/10 backdrop-blur border border-white/15">
-          <Users className="w-5 h-5 text-blue-300" />
-          <div className="mt-2 text-2xl font-semibold text-blue-100">3</div>
-          <div className="text-slate-300 text-sm">Proyectos verificados</div>
-        </div>
-        <div className="rounded-xl p-5 bg-white/10 backdrop-blur border border-white/15">
-          <CheckCircle2 className="w-5 h-5 text-green-300" />
-          <div className="mt-2 text-2xl font-semibold text-green-100">2</div>
-          <div className="text-slate-300 text-sm">Líneas de financiación sugeridas</div>
-        </div>
-      </div>
-
-      {/* Projects list */}
-      <div className="space-y-6">
-        {proyectosMock.map((p) => {
-          const coste = p.tareas.reduce((a, t) => a + t.costeEstimado, 0)
-          return (
-            <div key={p.id} className="rounded-2xl p-6 bg-white/10 backdrop-blur-xl border border-white/15 shadow-lg">
-              <div className="flex items-center gap-3 mb-2">
-                <Globe className="w-4 h-4 text-cyan-300" />
-                <h3 className="text-lg font-semibold">{p.nombre}</h3>
-                <span className="ml-auto text-xs px-2 py-1 rounded bg-cyan-500/10 border border-cyan-500/20 text-cyan-200">
-                  € {coste.toLocaleString('es-ES')}
-                </span>
+      <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+        {oportunidades.map((o) => (
+          <article key={o.id} className="group relative overflow-hidden rounded-2xl border border-white/10 bg-white/5 p-5 backdrop-blur-md transition hover:border-white/20 hover:bg-white/10">
+            <div className="absolute inset-0 -z-10 bg-gradient-to-br from-white/10 to-transparent opacity-0 transition group-hover:opacity-100" />
+            <div className="mb-4 flex items-center gap-3">
+              <div className="flex h-14 w-14 items-center justify-center rounded-xl bg-white/10">
+                <Euro className="h-8 w-8 text-white" />
               </div>
-              <p className="text-slate-200 text-sm mb-3">{p.problemaPrincipal}</p>
-              <p className="text-slate-300 text-sm mb-4">{p.solucionPrincipal}</p>
-              <div className="flex flex-wrap gap-2 text-xs mb-4">
-                {p.lineasFinanciacion?.map((l) => (
-                  <span key={l} className="px-2 py-1 rounded bg-blue-500/10 border border-blue-500/20 text-blue-200">
-                    {l}
-                  </span>
-                ))}
-              </div>
-              <div className="flex items-center gap-3 text-sm">
-                {p.financiador ? (
-                  <span className="inline-flex items-center gap-1 text-green-300">
-                    <CheckCircle2 className="w-4 h-4" /> Vinculado: {p.financiador}
-                  </span>
-                ) : (
-                  <span className="inline-flex items-center gap-1 text-slate-300">
-                    <XCircle className="w-4 h-4" /> Sin financiador asignado
-                  </span>
-                )}
-                <a href={`mailto:${p.emailContacto}`} className="ml-auto text-cyan-200 hover:text-cyan-100">
-                  Contactar
-                </a>
+              <div>
+                <h3 className="text-lg font-semibold text-orange-400">{o.titulo}</h3>
+                <div className="mt-1 flex items-center gap-2 text-xs">
+                  <span className="rounded-full bg-sky-500/20 px-2 py-0.5 text-sky-300">{o.entidad}</span>
+                  <span className="rounded-full bg-violet-500/20 px-2 py-0.5 text-violet-300">{o.importe}</span>
+                  <span className="rounded-full bg-emerald-500/20 px-2 py-0.5 text-emerald-300">{o.estado}</span>
+                </div>
               </div>
             </div>
-          )
-        })}
+            <p className="mb-4 text-sm text-white/80">Apoya proyectos con impacto medible, transparencia y foco en resultados.</p>
+            <div className="flex items-center gap-2 text-xs text-white/70">
+              <CheckCircle2 className="h-4 w-4 text-emerald-400" /> Elegible
+              <Users className="h-4 w-4 text-white/70" /> Mentores disponibles
+            </div>
+            <div className="mt-4">
+              <button className="inline-flex items-center gap-2 rounded-full bg-orange-500 px-4 py-2 text-sm font-medium text-black shadow-lg shadow-orange-500/30 transition hover:bg-orange-400">
+                Ver bases <ArrowRight className="h-4 w-4" />
+              </button>
+            </div>
+          </article>
+        ))}
       </div>
-
-      {/* Separator */}
-      <div className="my-12 h-px bg-gradient-to-r from-transparent via-cyan-500/30 to-transparent" />
-
-      <p className="text-slate-300 text-xs">Actualizado automáticamente con datos de ejemplo.</p>
-    </main>
+    </Layout>
   )
 }
