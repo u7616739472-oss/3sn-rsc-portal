@@ -35,13 +35,13 @@ export default function SearchPage({ searchParams }: { searchParams?: { q?: stri
 
   return (
     <main className="mx-auto max-w-6xl px-4 py-10 text-white">
-      <h1 className="text-3xl font-bold mb-6">Búsqueda de Proyectos</h1>
+      <h1 className="text-3xl font-bold mb-6 text-[#FF9900]">🔍 Búsqueda de Proyectos</h1>
 
       {/* Filters */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
         <form className="col-span-2">
-          <div className="flex rounded-xl overflow-hidden border border-white/15 bg-white/10 backdrop-blur">
-            <div className="pl-3 flex items-center text-cyan-300">
+          <div className="flex rounded-xl overflow-hidden border border-[#FF9900]/20 bg-white/10 backdrop-blur shadow-lg shadow-[#FF9900]/10">
+            <div className="pl-3 flex items-center text-[#FF9900]">
               <Search className="w-5 h-5" />
             </div>
             <input
@@ -50,16 +50,18 @@ export default function SearchPage({ searchParams }: { searchParams?: { q?: stri
               placeholder="Buscar proyectos..."
               className="flex-1 bg-transparent px-3 py-3 outline-none text-slate-100 placeholder:text-slate-400"
             />
-            <button className="px-4 py-3 bg-cyan-500/20 border-l border-white/10 hover:bg-cyan-500/30">Buscar</button>
+            <button className="px-4 py-3 bg-[#FF9900]/20 border-l border-[#FF9900]/30 hover:bg-[#FF9900]/30 transition-all">
+              Buscar
+            </button>
           </div>
         </form>
         <form>
-          <select name="categoria" defaultValue={categoria || ''} className="w-full bg-white/10 border border-white/15 rounded-xl px-3 py-3 backdrop-blur">
-            <option value="">Todas las categorías</option>
-            <option>Educación</option>
-            <option>Medio Ambiente</option>
-            <option>Comercio</option>
-            <option>Salud</option>
+          <select name="categoria" defaultValue={categoria || ''} className="w-full bg-white/10 border border-[#FF9900]/20 rounded-xl px-3 py-3 backdrop-blur shadow-lg shadow-[#FF9900]/10 text-white">
+            <option value="">🎯 Todas las categorías</option>
+            <option>🎓 Educación</option>
+            <option>🌱 Medio Ambiente</option>
+            <option>🛒 Comercio</option>
+            <option>⚕️ Salud</option>
           </select>
         </form>
       </div>
@@ -67,28 +69,27 @@ export default function SearchPage({ searchParams }: { searchParams?: { q?: stri
       {/* Results */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         {results.map((p) => (
-          <div key={p.id} className="relative rounded-2xl p-6 bg-white/10 backdrop-blur-xl border border-white/15 shadow-lg">
-            <div className="absolute -top-3 left-4 text-xs px-2 py-1 rounded-full bg-cyan-500 text-slate-900 font-bold">
+          <div key={p.id} className="relative rounded-2xl p-6 bg-white/10 backdrop-blur-xl border border-[#FF9900]/20 shadow-lg shadow-[#FF9900]/10 hover:shadow-[#FF9900]/20 transition-all">
+            <div className="absolute -top-3 left-4 text-xs px-3 py-1 rounded-full bg-gradient-to-r from-[#FF9900] to-[#FF7700] text-black font-bold shadow-lg">
               {p.estado}
             </div>
             <div className="flex items-center gap-3 mb-2">
               <SectorIcon sector={p.categoria} />
-              <h3 className="text-lg font-semibold">{p.titulo}</h3>
-              <span className="ml-auto text-xs px-2 py-1 rounded bg-cyan-500/10 border border-cyan-500/20 text-cyan-200">{p.categoria}</span>
+              <h3 className="text-lg font-semibold text-white">{p.titulo}</h3>
+              <span className="ml-auto text-xs px-2 py-1 rounded bg-[#FF9900]/10 border border-[#FF9900]/30 text-[#FF9900]">{p.categoria}</span>
             </div>
-            <p className="text-slate-200 text-sm mb-4">{p.descripcion}</p>
+            <p className="text-slate-200 text-sm mb-4 line-clamp-2">{p.descripcion}</p>
             <div className="flex gap-3 text-sm">
-              <Link href={`/ongd`} className="text-cyan-200 hover:text-cyan-100">Ver ONGDs</Link>
-              <Link href={`/financiador`} className="text-blue-200 hover:text-blue-100">Opciones de financiación</Link>
+              <Link href={`/ongd`} className="text-[#FF9900] hover:text-[#FF7700] transition-colors">Ver ONGDs →</Link>
+              <Link href={`/financiador`} className="text-[#FF9900] hover:text-[#FF7700] transition-colors">Opciones de financiación →</Link>
             </div>
           </div>
         ))}
       </div>
 
       {/* Separator */}
-      <div className="my-12 h-px bg-gradient-to-r from-transparent via-cyan-500/30 to-transparent" />
-
-      <p className="text-slate-200 text-sm">Resultados: {results.length}</p>
+      <div className="my-12 h-px bg-gradient-to-r from-transparent via-[#FF9900]/30 to-transparent" />
+      <p className="text-slate-200 text-sm">📊 Resultados: {results.length}</p>
     </main>
   )
 }
