@@ -1,5 +1,6 @@
 'use client'
 import { Shield, Rocket, TrendingUp } from 'lucide-react'
+import Image from 'next/image'
 
 export default function HomePage() {
   return (
@@ -36,10 +37,12 @@ export default function HomePage() {
             textAlign: 'center',
           }}
         >
-          <img
-            src="/logo-portal.jpg"
+          <Image
+            src="/logo.png"
             alt="3SN Portal"
-            style={{ height: 80, width: 'auto', margin: '0 auto 1rem' }}
+            width={120}
+            height={120}
+            style={{ borderRadius: '12px', margin: '0 auto 1.5rem' }}
           />
           <h1
             style={{
@@ -60,63 +63,96 @@ export default function HomePage() {
               lineHeight: 1.6,
             }}
           >
-            Plataforma integral para ONGDs y financiadores: proyectos con impacto medible, trazabilidad total y confianza.
+            Plataforma de scoring automático que empareja ONGDs con financiadores. Calcula riesgo, proyecta ROI social y facilita desembolsos por hitos.
           </p>
-
           <div style={{ display: 'flex', gap: '1rem', justifyContent: 'center', flexWrap: 'wrap' }}>
             <a
-              href="#pilares"
+              href="/busqueda"
               style={{
-                background: '#FF9900',
+                display: 'inline-block',
+                padding: '1rem 2.5rem',
+                background: 'linear-gradient(135deg, #FF9900, #FF7700)',
                 color: '#000000',
-                padding: '0.75rem 1.25rem',
-                borderRadius: 10,
-                textDecoration: 'none',
+                borderRadius: 8,
                 fontWeight: 700,
+                fontSize: 16,
+                textDecoration: 'none',
+                border: 'none',
+                cursor: 'pointer',
+                boxShadow: '0 6px 24px rgba(255, 153, 0, 0.4)',
+                transition: 'all 0.3s ease',
               }}
             >
-              Explorar pilares
+              🔍 Explorar Portal
             </a>
             <a
-              href="#contacto"
+              href="/financiador"
               style={{
-                border: '1px solid #FF9900',
+                display: 'inline-block',
+                padding: '1rem 2.5rem',
+                background: 'rgba(255, 255, 255, 0.1)',
+                backdropFilter: 'blur(10px)',
                 color: '#FFFFFF',
-                padding: '0.75rem 1.25rem',
-                borderRadius: 10,
-                textDecoration: 'none',
+                borderRadius: 8,
                 fontWeight: 600,
+                fontSize: 16,
+                textDecoration: 'none',
+                border: '1px solid rgba(255, 153, 0, 0.4)',
+                cursor: 'pointer',
+                transition: 'all 0.3s ease',
               }}
             >
-              Hablar con 3SN
+              💼 Ver Financiadores
             </a>
           </div>
         </div>
       </section>
 
-      {/* Vertical stacked cards for the 3 pillars using glassmorphism */}
-      <section id="pilares" style={{ maxWidth: 1100, margin: '0 auto', padding: '2rem 1.25rem 4rem' }}>
-        <div style={{ display: 'grid', gap: '1.25rem' }}>
-          {/* Pilar 1 */}
+      {/* Features Section - Vertical Cards */}
+      <section
+        style={{
+          maxWidth: '1280px',
+          margin: '0 auto',
+          padding: '4rem 1.25rem',
+        }}
+      >
+        <h2
+          style={{
+            textAlign: 'center',
+            fontSize: 'clamp(1.75rem, 3vw, 2.5rem)',
+            fontWeight: 700,
+            marginBottom: '3rem',
+            color: '#FF9900',
+          }}
+        >
+          ¿Por qué usar 3SN Portal RSC?
+        </h2>
+        <div
+          style={{
+            display: 'grid',
+            gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))',
+            gap: '2rem',
+          }}
+        >
+          {/* Card 1 - Glassmorphism */}
           <div
             style={{
-              background: 'rgba(255,255,255,0.04)',
-              border: '1px solid rgba(255,153,0,0.25)',
+              background: 'rgba(255, 255, 255, 0.05)',
+              backdropFilter: 'blur(20px)',
+              border: '1px solid rgba(255, 153, 0, 0.2)',
               borderRadius: 16,
-              padding: '1.25rem',
-              backdropFilter: 'blur(12px)',
-              boxShadow: '0 10px 30px rgba(0,0,0,0.35)',
-              display: 'grid',
-              gridTemplateColumns: 'auto 1fr',
-              gap: '0.75rem 1rem',
+              padding: '2.5rem',
+              display: 'flex',
+              flexDirection: 'column',
+              gap: '1.5rem',
               alignItems: 'center',
             }}
           >
             <div
               style={{
-                width: 56,
-                height: 56,
-                borderRadius: 12,
+                width: 80,
+                height: 80,
+                borderRadius: 16,
                 display: 'grid',
                 placeItems: 'center',
                 background: 'linear-gradient(145deg, rgba(255,153,0,0.2), rgba(255,153,0,0.05))',
@@ -124,36 +160,37 @@ export default function HomePage() {
                 color: '#FF9900',
               }}
             >
-              <Shield size={28} />
+              <Shield size={36} />
             </div>
-            <div>
-              <h3 style={{ margin: 0, fontSize: 20, color: '#FFFFFF' }}>Transparencia y Confianza</h3>
-              <p style={{ margin: '0.25rem 0 0', color: '#CCCCCC' }}>
-                Trazabilidad completa en la cadena de valor con registros inmutables y auditorías simplificadas.
+            <div style={{ textAlign: 'center' }}>
+              <h3 style={{ margin: 0, fontSize: 22, color: '#FFFFFF', marginBottom: '0.75rem' }}>
+                Scoring Inteligente de Riesgo
+              </h3>
+              <p style={{ margin: 0, color: '#CCCCCC', lineHeight: 1.6 }}>
+                Algoritmo avanzado que evalúa transparencia, capacidad operativa y trayectoria de ONGDs para maximizar confianza.
               </p>
             </div>
           </div>
 
-          {/* Pilar 2 */}
+          {/* Card 2 */}
           <div
             style={{
-              background: 'rgba(255,255,255,0.04)',
-              border: '1px solid rgba(255,153,0,0.25)',
+              background: 'rgba(255, 255, 255, 0.05)',
+              backdropFilter: 'blur(20px)',
+              border: '1px solid rgba(255, 153, 0, 0.2)',
               borderRadius: 16,
-              padding: '1.25rem',
-              backdropFilter: 'blur(12px)',
-              boxShadow: '0 10px 30px rgba(0,0,0,0.35)',
-              display: 'grid',
-              gridTemplateColumns: 'auto 1fr',
-              gap: '0.75rem 1rem',
+              padding: '2.5rem',
+              display: 'flex',
+              flexDirection: 'column',
+              gap: '1.5rem',
               alignItems: 'center',
             }}
           >
             <div
               style={{
-                width: 56,
-                height: 56,
-                borderRadius: 12,
+                width: 80,
+                height: 80,
+                borderRadius: 16,
                 display: 'grid',
                 placeItems: 'center',
                 background: 'linear-gradient(145deg, rgba(255,153,0,0.2), rgba(255,153,0,0.05))',
@@ -161,36 +198,37 @@ export default function HomePage() {
                 color: '#FF9900',
               }}
             >
-              <TrendingUp size={28} />
+              <TrendingUp size={36} />
             </div>
-            <div>
-              <h3 style={{ margin: 0, fontSize: 20, color: '#FFFFFF' }}>Impacto Medible</h3>
-              <p style={{ margin: '0.25rem 0 0', color: '#CCCCCC' }}>
-                KPIs alineados a estándares ESG y ODS, con paneles de control y reportes automáticos.
+            <div style={{ textAlign: 'center' }}>
+              <h3 style={{ margin: 0, fontSize: 22, color: '#FFFFFF', marginBottom: '0.75rem' }}>
+                ROI Social Medible
+              </h3>
+              <p style={{ margin: 0, color: '#CCCCCC', lineHeight: 1.6 }}>
+                Proyecciones de impacto social cuantificable: beneficiarios alcanzados, ODS cumplidos y eficiencia de cada euro.
               </p>
             </div>
           </div>
 
-          {/* Pilar 3 */}
+          {/* Card 3 */}
           <div
             style={{
-              background: 'rgba(255,255,255,0.04)',
-              border: '1px solid rgba(255,153,0,0.25)',
+              background: 'rgba(255, 255, 255, 0.05)',
+              backdropFilter: 'blur(20px)',
+              border: '1px solid rgba(255, 153, 0, 0.2)',
               borderRadius: 16,
-              padding: '1.25rem',
-              backdropFilter: 'blur(12px)',
-              boxShadow: '0 10px 30px rgba(0,0,0,0.35)',
-              display: 'grid',
-              gridTemplateColumns: 'auto 1fr',
-              gap: '0.75rem 1rem',
+              padding: '2.5rem',
+              display: 'flex',
+              flexDirection: 'column',
+              gap: '1.5rem',
               alignItems: 'center',
             }}
           >
             <div
               style={{
-                width: 56,
-                height: 56,
-                borderRadius: 12,
+                width: 80,
+                height: 80,
+                borderRadius: 16,
                 display: 'grid',
                 placeItems: 'center',
                 background: 'linear-gradient(145deg, rgba(255,153,0,0.2), rgba(255,153,0,0.05))',
@@ -198,47 +236,17 @@ export default function HomePage() {
                 color: '#FF9900',
               }}
             >
-              <Rocket size={28} />
+              <Rocket size={36} />
             </div>
-            <div>
-              <h3 style={{ margin: 0, fontSize: 20, color: '#FFFFFF' }}>Eficiencia de Financiación</h3>
-              <p style={{ margin: '0.25rem 0 0', color: '#CCCCCC' }}>
+            <div style={{ textAlign: 'center' }}>
+              <h3 style={{ margin: 0, fontSize: 22, color: '#FFFFFF', marginBottom: '0.75rem' }}>
+                Eficiencia de Financiación
+              </h3>
+              <p style={{ margin: 0, color: '#CCCCCC', lineHeight: 1.6 }}>
                 Puentes entre ONGDs y financiadores con scoring de proyectos y desembolsos por hitos.
               </p>
             </div>
           </div>
-        </div>
-      </section>
-
-      {/* CTA inferior */}
-      <section id="contacto" style={{ maxWidth: 1100, margin: '0 auto', padding: '0 1.25rem 4rem' }}>
-        <div
-          style={{
-            borderRadius: 16,
-            padding: '1.25rem',
-            background: 'linear-gradient(135deg, rgba(255,153,0,0.15), rgba(255,153,0,0.05))',
-            border: '1px solid rgba(255,153,0,0.3)',
-            textAlign: 'center',
-          }}
-        >
-          <h3 style={{ margin: 0, fontSize: 20, color: '#FFFFFF' }}>¿Listo para impulsar tu impacto?</h3>
-          <p style={{ margin: '0.5rem 0 1rem', color: '#4A4A4A' }}>
-            Descubre cómo 3SN acelera la colaboración con transparencia y resultados.
-          </p>
-          <a
-            href="mailto:contacto@3sn.org"
-            style={{
-              display: 'inline-block',
-              background: '#FF9900',
-              color: '#000000',
-              padding: '0.75rem 1.25rem',
-              borderRadius: 10,
-              textDecoration: 'none',
-              fontWeight: 700,
-            }}
-          >
-            Solicitar demo
-          </a>
         </div>
       </section>
     </main>
