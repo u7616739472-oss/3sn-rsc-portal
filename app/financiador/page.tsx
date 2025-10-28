@@ -1,28 +1,20 @@
 'use client'
-
 import { useMemo, useState } from 'react'
 import Link from 'next/link'
-import { ArrowLeft, Search, Filter, Euro, Users, CheckCircle2, XCircle } from 'lucide-react'
+import { Globe, ArrowLeft, Search, Euro, Users, CheckCircle2, XCircle } from 'lucide-react'
 
-// Types representing DB structure
-export type Tarea = {
-  id: string
-  nombre: string
-  costeEstimado: number
-}
-
-export type Proyecto = {
+type Tarea = { id: string; nombre: string; costeEstimado: number }
+type Proyecto = {
   id: string
   nombre: string
   problemaPrincipal: string
   solucionPrincipal: string
   tareas: Tarea[]
-  financiador?: string | null // null = sin financiador
+  financiador?: string | null
   emailContacto?: string
-  lineasFinanciacion?: string[] // etiquetas de líneas
+  lineasFinanciacion?: string[]
 }
 
-// Mock DB dataset (replace later with DB fetch)
 const proyectosMock: Proyecto[] = [
   {
     id: 'p1',
@@ -36,7 +28,7 @@ const proyectosMock: Proyecto[] = [
     ],
     financiador: null,
     emailContacto: 'contacto@ongd.org',
-    lineasFinanciacion: ['Educación', 'ODS4', 'Rural']
+    lineasFinanciacion: ['Educación', 'ODS4', 'Rural'],
   },
   {
     id: 'p2',
@@ -50,7 +42,7 @@ const proyectosMock: Proyecto[] = [
     ],
     financiador: 'Fundación Aqua',
     emailContacto: 'agua@ongd.org',
-    lineasFinanciacion: ['Agua', 'Salud', 'ODS6']
+    lineasFinanciacion: ['Agua', 'Salud', 'ODS6'],
   },
   {
     id: 'p3',
@@ -64,7 +56,7 @@ const proyectosMock: Proyecto[] = [
     ],
     financiador: null,
     emailContacto: 'reciclaje@ongd.org',
-    lineasFinanciacion: ['Reciclaje', 'ODS12', 'Urbano']
+    lineasFinanciacion: ['Reciclaje', 'ODS12', 'Urbano'],
   },
 ]
 
@@ -76,41 +68,51 @@ export default function FinanciadorPage() {
   const resultados = useMemo(() => {
     return proyectosMock.filter((p) => {
       const matchTexto = [p.nombre, p.problemaPrincipal, p.solucionPrincipal, ...(p.lineasFinanciacion || [])]
-        .join(' ') 
+        .join(' ')
         .toLowerCase()
         .includes(q.toLowerCase())
-
       const matchFinanciador = !soloSinFinanciador ? true : !p.financiador
       const matchEtiqueta = etiqueta ? (p.lineasFinanciacion || []).includes(etiqueta) : true
       return matchTexto && matchFinanciador && matchEtiqueta
     })
   }, [q, soloSinFinanciador, etiqueta])
 
+  const lineas = Array.from(new Set(proyectosMock.flatMap(p => p.lineasFinanciacion || [])))
+
   return (
-    <main className="min-h-screen bg-gradient-to-br from-slate-950 via-blue-950 to-slate-900">
-      <div className="absolute inset-0 opacity-20 pointer-events-none">
-        <div className="absolute top-24 left-24 w-80 h-80 bg-purple-500/20 rounded-full blur-3xl"></div>
-        <div className="absolute bottom-24 right-24 w-96 h-96 bg-cyan-500/20 rounded-full blur-3xl"></div>
-      </div>
-
-      <div className="relative mx-auto max-w-6xl px-4 py-12">
-        {/* Header */}
-        <div className="mb-8">
-          <Link href="/" className="inline-flex items-center gap-2 text-purple-300 hover:text-purple-200 transition mb-6">
-            <ArrowLeft className="w-5 h-5" />
-            <span>Volver al inicio</span>
+    <main className="min-h-screen bg-gradient-to-br from-slate-950 via-blue-950 to-slate-900 text-white">
+      {/* Header */}
+      <header className="sticky top-0 z-50 border-b border-white/10 bg-slate-900/60 backdrop-blur">
+        <div className="mx-auto max-w-6xl px-4 h-14 flex items-center justify-between">
+          <Link href="/" className="flex items-center gap-2 font-semibold text-cyan-300">
+            <Globe className="w-5 h-5" /> <span>3SN Portal RSC</span>
           </Link>
+          <nav className="hidden sm:flex items-center gap-6 text-sm text-slate-200">
+            <Link href="/busqueda" className="hover:text-cyan-300">Búsqueda</Link>
+            <Link href="/ongd" className="hover:text-cyan-300">ONGD</Link>
+            <Link href="/financiador" className="hover:text-cyan-300">Financiador</Link>
+          </nav>
+        </div>
+      </header>
 
-          <div className="flex items-center justify-between gap-4 mb-4 flex-wrap">
+      {/* Hero + filters */}
+      <section className="relative overflow-hidden">
+        <div className="absolute inset-0 opacity-20">
+          <div className="absolute top-24 left-24 w-80 h-80 bg-purple-500/20 rounded-full blur-3xl" />
+          <div className="absolute bottom-24 right-24 w-96 h-96 bg-cyan-500/20 rounded-full blur-3xl" />
+        </div>
+        <div className="relative mx-auto max-w-6xl px-4 py-12">
+          <Link href="/" className="inline-flex items-center gap-2 text-slate-300 hover:text-cyan-300 mb-6">
+            <ArrowLeft className="w-4 h-4" /> Volver al inicio
+          </Link>
+          <div className="flex items-center justify-between gap-4 mb-6 flex-wrap">
             <div>
-              <h1 className="text-4xl font-bold text-white">Buscador de Proyectos</h1>
+              <h1 className="text-3xl sm:text-4xl font-bold text-white">Buscador de Proyectos</h1>
               <p className="text-slate-300 mt-1">Explora proyectos y líneas de financiación</p>
             </div>
           </div>
-
-          {/* Search + Filters */}
           <div className="bg-slate-900/60 backdrop-blur border border-purple-500/20 rounded-2xl p-4 flex flex-col md:flex-row gap-3 items-stretch md:items-center">
-            <div className="flex-1 flex items-center gap-3 bg-slate-900/60 border border-slate-800 rounded-xl px-4 py-2">
+            <label className="flex-1 flex items-center gap-3 bg-slate-900/60 border border-slate-800 rounded-xl px-4 py-2">
               <Search className="w-5 h-5 text-slate-400" />
               <input
                 type="text"
@@ -119,41 +121,33 @@ export default function FinanciadorPage() {
                 onChange={(e) => setQ(e.target.value)}
                 className="w-full bg-transparent text-white placeholder-slate-500 outline-none"
               />
-            </div>
-
-            <div className="flex items-center gap-2">
+            </label>
+            <label className="inline-flex items-center gap-2 bg-slate-900/60 border border-slate-800 rounded-xl px-3 py-2">
               <span className="text-slate-400 text-sm">Línea</span>
-              <select
-                value={etiqueta}
-                onChange={(e) => setEtiqueta(e.target.value)}
-                className="bg-slate-900/60 border border-slate-800 rounded-lg px-3 py-2 text-white"
-              >
+              <select value={etiqueta} onChange={(e) => setEtiqueta(e.target.value)} className="bg-slate-900/60 border border-slate-800 rounded-lg px-3 py-2 text-white">
                 <option value="">Todas</option>
-                {Array.from(new Set(proyectosMock.flatMap(p => p.lineasFinanciacion || []))).map(tag => (
+                {lineas.map(tag => (
                   <option key={tag} value={tag}>{tag}</option>
                 ))}
               </select>
-            </div>
-
-            <label className="inline-flex items-center gap-2 bg-slate-900/60 border border-slate-800 rounded-xl px-3 py-2 text-white">
-              <input
-                type="checkbox"
-                checked={soloSinFinanciador}
-                onChange={(e) => setSoloSinFinanciador(e.target.checked)}
-              />
+            </label>
+            <label className="inline-flex items-center gap-2 bg-slate-900/60 border border-slate-800 rounded-xl px-3 py-2">
+              <input type="checkbox" checked={soloSinFinanciador} onChange={(e) => setSoloSinFinanciador(e.target.checked)} />
               <span className="text-sm">Solo sin financiador</span>
             </label>
           </div>
         </div>
+      </section>
 
-        {/* Results Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      {/* Results */}
+      <section className="relative px-4 pb-16">
+        <div className="mx-auto max-w-6xl grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {resultados.map((p) => {
             const total = p.tareas.reduce((acc, t) => acc + t.costeEstimado, 0)
             const tieneFin = Boolean(p.financiador)
             return (
               <article key={p.id} className="group rounded-2xl bg-slate-900/60 border border-purple-500/20 hover:border-purple-400/40 transition overflow-hidden">
-                <div className="h-28 bg-gradient-to-br from-purple-500/20 to-cyan-500/20"></div>
+                <div className="h-28 bg-gradient-to-br from-purple-500/20 to-cyan-500/20" />
                 <div className="p-5">
                   <div className="flex items-center justify-between mb-2">
                     <div className="flex flex-wrap gap-2">
@@ -161,16 +155,14 @@ export default function FinanciadorPage() {
                         <span key={tag} className="text-xs px-2 py-1 rounded bg-purple-600/20 text-purple-300">{tag}</span>
                       ))}
                     </div>
-                    <span className={`inline-flex items-center gap-1 text-xs ${tieneFin ? 'text-green-300' : 'text-slate-400'}`}>
+                    <span className="inline-flex items-center gap-1 text-xs">
                       {tieneFin ? <CheckCircle2 className="w-4 h-4" /> : <XCircle className="w-4 h-4" />}
                       {tieneFin ? 'Con financiador' : 'Sin financiador'}
                     </span>
                   </div>
-
                   <h3 className="text-lg font-semibold text-white">{p.nombre}</h3>
                   <p className="mt-1 text-slate-300 text-sm">Problema: {p.problemaPrincipal}</p>
                   <p className="text-slate-400 text-sm">Solución: {p.solucionPrincipal}</p>
-
                   <div className="mt-3 space-y-1">
                     {p.tareas.map((t) => (
                       <div key={t.id} className="flex items-center justify-between text-sm text-slate-300">
@@ -179,46 +171,29 @@ export default function FinanciadorPage() {
                       </div>
                     ))}
                   </div>
-
                   <div className="mt-4 flex items-center justify-between text-sm">
                     <span className="inline-flex items-center gap-2 text-slate-400">
                       <Users className="w-4 h-4" /> {p.emailContacto || '—'}
                     </span>
                     <span className="inline-flex items-center gap-1 text-cyan-300"><Euro className="w-4 h-4" />Total: {total.toLocaleString()} €</span>
                   </div>
-
                   <div className="mt-4 flex gap-2">
-                    <a href={`mailto:${p.emailContacto || ''}`} className="flex-1 text-center bg-purple-600 hover:bg-purple-500 text-white px-4 py-2 rounded-lg transition">
-                      Contactar ONGD
-                    </a>
-                    <button className="px-4 py-2 rounded-lg border border-purple-500/30 text-purple-200 hover:bg-purple-500/10 transition">
-                      Ver detalles
-                    </button>
+                    <a className="flex-1 text-center bg-purple-600 hover:bg-purple-500 text-white px-4 py-2 rounded-lg transition" href="#">Contactar ONGD</a>
+                    <button className="px-4 py-2 rounded-lg border border-purple-500/30 text-purple-200 hover:bg-purple-500/10 transition">Ver detalles</button>
                   </div>
                 </div>
               </article>
             )
           })}
         </div>
+      </section>
 
-        {/* DB Schema Reference (visual) */}
-        <div className="mt-12 bg-slate-900/60 border border-slate-800 rounded-2xl p-6">
-          <h2 className="text-xl font-bold text-white mb-3">Estructura de Datos (para BD)</h2>
-          <pre className="text-slate-300 text-sm overflow-auto">
-{`Proyecto {
-  id: string,
-  nombre: string,
-  problemaPrincipal: string,
-  solucionPrincipal: string,
-  tareas: Array<{ id: string, nombre: string, costeEstimado: number }>,
-  financiador?: string | null,
-  emailContacto?: string,
-  lineasFinanciacion?: string[]
-}
-`}
-          </pre>
+      {/* Footer */}
+      <footer className="border-t border-slate-800/80 bg-gradient-to-t from-slate-950 via-blue-950 to-transparent">
+        <div className="mx-auto max-w-6xl px-4 py-8 text-center text-slate-400">
+          <p>© {new Date().getFullYear()} 3SN Portal RSC</p>
         </div>
-      </div>
+      </footer>
     </main>
   )
 }
