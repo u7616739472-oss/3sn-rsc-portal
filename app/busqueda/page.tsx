@@ -1,3 +1,4 @@
+'use client'
 import Link from 'next/link';
 import Image from 'next/image';
 
@@ -79,15 +80,17 @@ export default function BusquedaPage({ searchParams }: SearchPageProps) {
     <div className="relative min-h-screen overflow-hidden">
       {/* Gradient background with overlay */}
       <div className="pointer-events-none absolute inset-0 -z-10">
-        <div className="absolute inset-0 bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50" />
-        <div className="absolute inset-0 bg-[radial-gradient(45%_60%_at_80%_10%,rgba(99,102,241,0.10),transparent)]" />
-        <div className="absolute inset-0 bg-[radial-gradient(35%_40%_at_15%_85%,rgba(236,72,153,0.10),transparent)]" />
+        <div className="absolute inset-0 bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50"></div>
+        <div className="absolute inset-0 bg-[radial-gradient(45%_60%_at_80%_10%,rgba(99,102,241,0.10),transparent)]"></div>
+        <div className="absolute inset-0 bg-[radial-gradient(35%_40%_at_15%_85%,rgba(236,72,153,0.10),transparent)]"></div>
       </div>
 
       <div className="container mx-auto px-4 py-12">
         {/* Header with slight slide-in */}
         <div className="mb-8 opacity-0 animate-[fadein_0.7s_ease-out_forwards,slideup_0.7s_ease-out_forwards] [animation-delay:100ms]">
-          <Link href="/" className="inline-flex items-center text-indigo-600 hover:text-indigo-800 mb-4">← Volver al inicio</Link>
+          <Link className="inline-flex items-center text-indigo-600 hover:text-indigo-800 mb-4" href="/">
+            ← Volver al inicio
+          </Link>
           <h1 className="text-4xl font-bold text-gray-900 mb-2">Resultados de búsqueda</h1>
           {query && (
             <p className="text-lg text-gray-600">
@@ -106,7 +109,7 @@ export default function BusquedaPage({ searchParams }: SearchPageProps) {
           <div className="flex flex-wrap gap-2">
             {[...new Set(proyectosEjemplo.map((p) => p.categoria))].map((cat) => (
               <span key={cat} className="inline-flex items-center gap-2 px-3 py-1 rounded-xl text-sm bg-white text-gray-700 border border-gray-200">
-                <span>{categoryIcons[cat] ?? '🏷️'}</span>
+                {categoryIcons[cat] ?? '🏷️'}
                 {cat}
               </span>
             ))}
@@ -131,7 +134,7 @@ export default function BusquedaPage({ searchParams }: SearchPageProps) {
                     className="object-cover transition-transform duration-500 group-hover:scale-110"
                     sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                   />
-                  <div className="pointer-events-none absolute inset-0 shadow-[inset_0_-30px_50px_rgba(0,0,0,0.18)]" />
+                  <div className="pointer-events-none absolute inset-0 shadow-[inset_0_-30px_50px_rgba(0,0,0,0.18)]"></div>
 
                   {/* Logo circular superpuesto */}
                   <div className="absolute bottom-0 right-0 translate-y-1/2 mr-6">
@@ -148,12 +151,14 @@ export default function BusquedaPage({ searchParams }: SearchPageProps) {
                 <div className="p-6 pt-12">
                   <div className="mb-3">
                     <span className="inline-flex items-center gap-2 px-3 py-1 bg-indigo-100 text-indigo-700 text-sm font-semibold rounded-full">
-                      <span>{categoryIcons[proyecto.categoria] ?? '🏷️'}</span>
+                      {categoryIcons[proyecto.categoria] ?? '🏷️'}
                       {proyecto.categoria}
                     </span>
                   </div>
+
                   <h3 className="text-xl font-bold text-gray-900 mb-2 line-clamp-1">{proyecto.titulo}</h3>
                   <p className="text-gray-600 mb-4 line-clamp-2">{proyecto.descripcion}</p>
+
                   <div className="mb-4">
                     <p className="text-sm font-semibold text-gray-700 mb-2">Tecnologías:</p>
                     <div className="flex flex-wrap gap-2">
@@ -164,6 +169,7 @@ export default function BusquedaPage({ searchParams }: SearchPageProps) {
                       ))}
                     </div>
                   </div>
+
                   <div className="flex items-center justify-between">
                     <span className={`text-sm font-medium ${proyecto.estado === 'Completado' ? 'text-green-600' : 'text-blue-600'}`}>
                       {proyecto.estado}
