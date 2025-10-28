@@ -11,73 +11,110 @@ export default function RootLayout({
         style={{
           margin: 0,
           padding: 0,
-          background: 'linear-gradient(135deg, #0f2847 0%, #1a5490 50%, #22d3ee 100%)',
           minHeight: '100vh',
-          color: '#fff',
+          color: '#000',
           fontFamily: 'system-ui, -apple-system, sans-serif',
         }}
       >
+        {/* Video Background */}
+        <video
+          autoPlay
+          loop
+          muted
+          playsInline
+          style={{
+            position: 'fixed',
+            top: 0,
+            left: 0,
+            width: '100%',
+            height: '100%',
+            objectFit: 'cover',
+            zIndex: -1,
+            opacity: 0.3,
+          }}
+        >
+          <source src="https://assets.mixkit.co/videos/preview/mixkit-people-working-together-in-a-modern-office-4995-large.mp4" type="video/mp4" />
+        </video>
+
+        {/* Overlay for better text readability */}
+        <div
+          style={{
+            position: 'fixed',
+            top: 0,
+            left: 0,
+            width: '100%',
+            height: '100%',
+            background: 'rgba(255, 255, 255, 0.85)',
+            zIndex: -1,
+          }}
+        />
+
         {/* Sticky Header */}
         <header
           style={{
             position: 'sticky',
             top: 0,
             zIndex: 1000,
-            background: 'rgba(15, 40, 71, 0.95)',
-            backdropFilter: 'blur(10px)',
-            borderBottom: '1px solid rgba(34, 211, 238, 0.2)',
+            background: '#fff',
+            borderBottom: '3px solid #22d3ee',
             padding: '1rem 2rem',
-            boxShadow: '0 2px 10px rgba(0, 0, 0, 0.3)',
+            boxShadow: '0 2px 10px rgba(0, 0, 0, 0.1)',
           }}
         >
           <div
             style={{
+              maxWidth: '1200px',
+              margin: '0 auto',
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'space-between',
-              maxWidth: '1400px',
-              margin: '0 auto',
+              gap: '2rem',
             }}
           >
-            <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
-              <div
+            {/* Logo */}
+            <a
+              href="/"
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                textDecoration: 'none',
+              }}
+            >
+              <img
+                src="/logo.jpg"
+                alt="Portal RSC 3SN"
                 style={{
-                  width: '40px',
-                  height: '40px',
-                  background: 'linear-gradient(135deg, #22d3ee, #0ea5e9)',
-                  borderRadius: '8px',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  fontWeight: 'bold',
-                  fontSize: '1.2rem',
+                  height: '50px',
+                  width: 'auto',
+                  objectFit: 'contain',
                 }}
-              >
-                3S
-              </div>
-              <h1 style={{ margin: 0, fontSize: '1.5rem', fontWeight: 'bold' }}>
-                Portal RSC 3SN
-              </h1>
-            </div>
+              />
+            </a>
+
+            {/* Navigation */}
             <nav>
               <ul
                 style={{
                   display: 'flex',
-                  gap: '2rem',
                   listStyle: 'none',
+                  gap: '2rem',
                   margin: 0,
                   padding: 0,
+                  flexWrap: 'wrap',
                 }}
               >
                 <li>
                   <a
                     href="/"
                     style={{
-                      color: '#22d3ee',
                       textDecoration: 'none',
-                      fontWeight: '500',
-                      transition: 'color 0.2s',
+                      color: '#000',
+                      fontSize: '1rem',
+                      fontWeight: 500,
+                      transition: 'color 0.3s ease',
                     }}
+                    onMouseOver={(e) => (e.currentTarget.style.color = '#22d3ee')}
+                    onMouseOut={(e) => (e.currentTarget.style.color = '#000')}
                   >
                     Inicio
                   </a>
@@ -86,10 +123,14 @@ export default function RootLayout({
                   <a
                     href="/busqueda"
                     style={{
-                      color: '#22d3ee',
                       textDecoration: 'none',
-                      fontWeight: '500',
+                      color: '#000',
+                      fontSize: '1rem',
+                      fontWeight: 500,
+                      transition: 'color 0.3s ease',
                     }}
+                    onMouseOver={(e) => (e.currentTarget.style.color = '#22d3ee')}
+                    onMouseOut={(e) => (e.currentTarget.style.color = '#000')}
                   >
                     Búsqueda
                   </a>
@@ -98,10 +139,14 @@ export default function RootLayout({
                   <a
                     href="/financiador"
                     style={{
-                      color: '#22d3ee',
                       textDecoration: 'none',
-                      fontWeight: '500',
+                      color: '#000',
+                      fontSize: '1rem',
+                      fontWeight: 500,
+                      transition: 'color 0.3s ease',
                     }}
+                    onMouseOver={(e) => (e.currentTarget.style.color = '#22d3ee')}
+                    onMouseOut={(e) => (e.currentTarget.style.color = '#000')}
                   >
                     Financiadores
                   </a>
@@ -110,10 +155,14 @@ export default function RootLayout({
                   <a
                     href="/ongd"
                     style={{
-                      color: '#22d3ee',
                       textDecoration: 'none',
-                      fontWeight: '500',
+                      color: '#000',
+                      fontSize: '1rem',
+                      fontWeight: 500,
+                      transition: 'color 0.3s ease',
                     }}
+                    onMouseOver={(e) => (e.currentTarget.style.color = '#22d3ee')}
+                    onMouseOut={(e) => (e.currentTarget.style.color = '#000')}
                   >
                     ONGDs
                   </a>
@@ -124,131 +173,162 @@ export default function RootLayout({
         </header>
 
         {/* Main Content */}
-        <main style={{ minHeight: 'calc(100vh - 200px)' }}>{children}</main>
+        <main
+          style={{
+            minHeight: 'calc(100vh - 200px)',
+            position: 'relative',
+          }}
+        >
+          {children}
+        </main>
 
         {/* Footer */}
         <footer
           style={{
-            background: 'linear-gradient(135deg, #0f2847 0%, #1a5490 100%)',
-            borderTop: '1px solid rgba(34, 211, 238, 0.2)',
-            padding: '2rem',
-            marginTop: '4rem',
+            background: '#000',
+            color: '#fff',
+            padding: '3rem 2rem',
+            marginTop: 'auto',
           }}
         >
           <div
             style={{
-              maxWidth: '1400px',
+              maxWidth: '1200px',
               margin: '0 auto',
               display: 'grid',
               gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))',
               gap: '2rem',
             }}
           >
+            {/* Logo & Description */}
             <div>
-              <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', marginBottom: '1rem' }}>
-                <div
-                  style={{
-                    width: '32px',
-                    height: '32px',
-                    background: 'linear-gradient(135deg, #22d3ee, #0ea5e9)',
-                    borderRadius: '6px',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    fontWeight: 'bold',
-                  }}
-                >
-                  3S
-                </div>
-                <strong style={{ fontSize: '1.1rem' }}>Portal RSC 3SN</strong>
-              </div>
-              <p style={{ color: '#a0aec0', fontSize: '0.9rem' }}>
-                Plataforma de Responsabilidad Social Corporativa
+              <img
+                src="/logo.jpg"
+                alt="Portal RSC 3SN"
+                style={{
+                  height: '60px',
+                  width: 'auto',
+                  marginBottom: '1rem',
+                  objectFit: 'contain',
+                }}
+              />
+              <p style={{ fontSize: '0.9rem', lineHeight: 1.6, opacity: 0.9 }}>
+                Portal de Responsabilidad Social Corporativa - Tercer Sector Sur Norte
               </p>
             </div>
+
+            {/* Quick Links */}
             <div>
-              <h3 style={{ marginTop: 0, fontSize: '1rem', color: '#22d3ee' }}>Enlaces</h3>
-              <ul style={{ listStyle: 'none', padding: 0, margin: 0 }}>
+              <h3
+                style={{
+                  fontSize: '1.1rem',
+                  marginBottom: '1rem',
+                  color: '#22d3ee',
+                }}
+              >
+                Enlaces Rápidos
+              </h3>
+              <ul
+                style={{
+                  listStyle: 'none',
+                  padding: 0,
+                  margin: 0,
+                }}
+              >
                 <li style={{ marginBottom: '0.5rem' }}>
-                  <a href="/" style={{ color: '#a0aec0', textDecoration: 'none' }}>
+                  <a
+                    href="/"
+                    style={{
+                      color: '#fff',
+                      textDecoration: 'none',
+                      opacity: 0.9,
+                      transition: 'opacity 0.3s',
+                    }}
+                    onMouseOver={(e) => (e.currentTarget.style.opacity = '1')}
+                    onMouseOut={(e) => (e.currentTarget.style.opacity = '0.9')}
+                  >
                     Inicio
                   </a>
                 </li>
                 <li style={{ marginBottom: '0.5rem' }}>
-                  <a href="/busqueda" style={{ color: '#a0aec0', textDecoration: 'none' }}>
-                    Búsqueda
+                  <a
+                    href="/busqueda"
+                    style={{
+                      color: '#fff',
+                      textDecoration: 'none',
+                      opacity: 0.9,
+                      transition: 'opacity 0.3s',
+                    }}
+                    onMouseOver={(e) => (e.currentTarget.style.opacity = '1')}
+                    onMouseOut={(e) => (e.currentTarget.style.opacity = '0.9')}
+                  >
+                    Búsqueda de Proyectos
+                  </a>
+                </li>
+                <li style={{ marginBottom: '0.5rem' }}>
+                  <a
+                    href="/financiador"
+                    style={{
+                      color: '#fff',
+                      textDecoration: 'none',
+                      opacity: 0.9,
+                      transition: 'opacity 0.3s',
+                    }}
+                    onMouseOver={(e) => (e.currentTarget.style.opacity = '1')}
+                    onMouseOut={(e) => (e.currentTarget.style.opacity = '0.9')}
+                  >
+                    Financiadores
+                  </a>
+                </li>
+                <li style={{ marginBottom: '0.5rem' }}>
+                  <a
+                    href="/ongd"
+                    style={{
+                      color: '#fff',
+                      textDecoration: 'none',
+                      opacity: 0.9,
+                      transition: 'opacity 0.3s',
+                    }}
+                    onMouseOver={(e) => (e.currentTarget.style.opacity = '1')}
+                    onMouseOut={(e) => (e.currentTarget.style.opacity = '0.9')}
+                  >
+                    ONGDs
                   </a>
                 </li>
               </ul>
             </div>
+
+            {/* Contact Info */}
             <div>
-              <h3 style={{ marginTop: 0, fontSize: '1rem', color: '#22d3ee' }}>Redes Sociales</h3>
-              <div style={{ display: 'flex', gap: '1rem', marginTop: '0.75rem' }}>
-                <a
-                  href="#"
-                  style={{
-                    width: '36px',
-                    height: '36px',
-                    background: 'rgba(34, 211, 238, 0.1)',
-                    borderRadius: '50%',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    color: '#22d3ee',
-                    textDecoration: 'none',
-                    border: '1px solid rgba(34, 211, 238, 0.3)',
-                  }}
-                >
-                  f
-                </a>
-                <a
-                  href="#"
-                  style={{
-                    width: '36px',
-                    height: '36px',
-                    background: 'rgba(34, 211, 238, 0.1)',
-                    borderRadius: '50%',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    color: '#22d3ee',
-                    textDecoration: 'none',
-                    border: '1px solid rgba(34, 211, 238, 0.3)',
-                  }}
-                >
-                  𝕏
-                </a>
-                <a
-                  href="#"
-                  style={{
-                    width: '36px',
-                    height: '36px',
-                    background: 'rgba(34, 211, 238, 0.1)',
-                    borderRadius: '50%',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    color: '#22d3ee',
-                    textDecoration: 'none',
-                    border: '1px solid rgba(34, 211, 238, 0.3)',
-                  }}
-                >
-                  in
-                </a>
-              </div>
+              <h3
+                style={{
+                  fontSize: '1.1rem',
+                  marginBottom: '1rem',
+                  color: '#22d3ee',
+                }}
+              >
+                Contacto
+              </h3>
+              <p style={{ fontSize: '0.9rem', lineHeight: 1.6, opacity: 0.9 }}>
+                Email: info@portal3sn.org<br />
+                Colaborando con organizaciones del Tercer Sector
+              </p>
             </div>
           </div>
+
+          {/* Copyright */}
           <div
             style={{
+              maxWidth: '1200px',
+              margin: '2rem auto 0',
+              paddingTop: '2rem',
+              borderTop: '1px solid rgba(34, 211, 238, 0.3)',
               textAlign: 'center',
-              marginTop: '2rem',
-              paddingTop: '1.5rem',
-              borderTop: '1px solid rgba(34, 211, 238, 0.2)',
-              color: '#a0aec0',
-              fontSize: '0.875rem',
+              fontSize: '0.85rem',
+              opacity: 0.8,
             }}
           >
-            © 2025 Portal RSC 3SN. Todos los derechos reservados.
+            © {new Date().getFullYear()} Portal RSC 3SN. Todos los derechos reservados.
           </div>
         </footer>
       </body>
