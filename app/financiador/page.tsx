@@ -61,139 +61,86 @@ const proyectosMock: Proyecto[] = [
 ]
 
 export default function FinanciadorPage() {
-  const [q, setQ] = useState('')
-  const [soloSinFinanciador, setSoloSinFinanciador] = useState(false)
-  const [etiqueta, setEtiqueta] = useState('')
-
-  const resultados = useMemo(() => {
-    return proyectosMock.filter((p) => {
-      const matchTexto = [p.nombre, p.problemaPrincipal, p.solucionPrincipal, ...(p.lineasFinanciacion || [])]
-        .join(' ')
-        .toLowerCase()
-        .includes(q.toLowerCase())
-      const matchFinanciador = !soloSinFinanciador ? true : !p.financiador
-      const matchEtiqueta = etiqueta ? (p.lineasFinanciacion || []).includes(etiqueta) : true
-      return matchTexto && matchFinanciador && matchEtiqueta
-    })
-  }, [q, soloSinFinanciador, etiqueta])
-
-  const lineas = Array.from(new Set(proyectosMock.flatMap(p => p.lineasFinanciacion || [])))
+  const totalPresupuesto = useMemo(
+    () => proyectosMock.reduce((acc, p) => acc + p.tareas.reduce((a, t) => a + t.costeEstimado, 0), 0),
+    []
+  )
 
   return (
-    <main className="min-h-screen bg-gradient-to-br from-slate-950 via-blue-950 to-slate-900 text-white">
-      {/* Header */}
-      <header className="sticky top-0 z-50 border-b border-white/10 bg-slate-900/60 backdrop-blur">
-        <div className="mx-auto max-w-6xl px-4 h-14 flex items-center justify-between">
-          <Link href="/" className="flex items-center gap-2 font-semibold text-cyan-300">
-            <Globe className="w-5 h-5" /> <span>3SN Portal RSC</span>
-          </Link>
-          <nav className="hidden sm:flex items-center gap-6 text-sm text-slate-200">
-            <Link href="/busqueda" className="hover:text-cyan-300">Búsqueda</Link>
-            <Link href="/ongd" className="hover:text-cyan-300">ONGD</Link>
-            <Link href="/financiador" className="hover:text-cyan-300">Financiador</Link>
-          </nav>
-        </div>
-      </header>
+    <main className="mx-auto max-w-6xl px-4 py-10 text-white">
+      <div className="flex items-center justify-between mb-6">
+        <h1 className="text-3xl font-bold">Financiadores</h1>
+        <Link href="/" className="text-cyan-200 hover:text-cyan-100 text-sm inline-flex items-center gap-1">
+          <ArrowLeft className="w-4 h-4" /> Volver
+        </Link>
+      </div>
 
-      {/* Hero + filters */}
-      <section className="relative overflow-hidden">
-        <div className="absolute inset-0 opacity-20">
-          <div className="absolute top-24 left-24 w-80 h-80 bg-purple-500/20 rounded-full blur-3xl" />
-          <div className="absolute bottom-24 right-24 w-96 h-96 bg-cyan-500/20 rounded-full blur-3xl" />
-        </div>
-        <div className="relative mx-auto max-w-6xl px-4 py-12">
-          <Link href="/" className="inline-flex items-center gap-2 text-slate-300 hover:text-cyan-300 mb-6">
-            <ArrowLeft className="w-4 h-4" /> Volver al inicio
-          </Link>
-          <div className="flex items-center justify-between gap-4 mb-6 flex-wrap">
-            <div>
-              <h1 className="text-3xl sm:text-4xl font-bold text-white">Buscador de Proyectos</h1>
-              <p className="text-slate-300 mt-1">Explora proyectos y líneas de financiación</p>
-            </div>
+      {/* Overview cards */}
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-10">
+        <div className="rounded-xl p-5 bg-white/10 backdrop-blur border border-white/15">
+          <Euro className="w-5 h-5 text-cyan-300" />
+          <div className="mt-2 text-2xl font-semibold text-cyan-100">
+            € {totalPresupuesto.toLocaleString('es-ES')}
           </div>
-          <div className="bg-slate-900/60 backdrop-blur border border-purple-500/20 rounded-2xl p-4 flex flex-col md:flex-row gap-3 items-stretch md:items-center">
-            <label className="flex-1 flex items-center gap-3 bg-slate-900/60 border border-slate-800 rounded-xl px-4 py-2">
-              <Search className="w-5 h-5 text-slate-400" />
-              <input
-                type="text"
-                placeholder="Buscar por nombre, problema, solución o línea..."
-                value={q}
-                onChange={(e) => setQ(e.target.value)}
-                className="w-full bg-transparent text-white placeholder-slate-500 outline-none"
-              />
-            </label>
-            <label className="inline-flex items-center gap-2 bg-slate-900/60 border border-slate-800 rounded-xl px-3 py-2">
-              <span className="text-slate-400 text-sm">Línea</span>
-              <select value={etiqueta} onChange={(e) => setEtiqueta(e.target.value)} className="bg-slate-900/60 border border-slate-800 rounded-lg px-3 py-2 text-white">
-                <option value="">Todas</option>
-                {lineas.map(tag => (
-                  <option key={tag} value={tag}>{tag}</option>
+          <div className="text-slate-300 text-sm">Presupuesto total requerido</div>
+        </div>
+        <div className="rounded-xl p-5 bg-white/10 backdrop-blur border border-white/15">
+          <Users className="w-5 h-5 text-blue-300" />
+          <div className="mt-2 text-2xl font-semibold text-blue-100">3</div>
+          <div className="text-slate-300 text-sm">Proyectos verificados</div>
+        </div>
+        <div className="rounded-xl p-5 bg-white/10 backdrop-blur border border-white/15">
+          <CheckCircle2 className="w-5 h-5 text-green-300" />
+          <div className="mt-2 text-2xl font-semibold text-green-100">2</div>
+          <div className="text-slate-300 text-sm">Líneas de financiación sugeridas</div>
+        </div>
+      </div>
+
+      {/* Projects list */}
+      <div className="space-y-6">
+        {proyectosMock.map((p) => {
+          const coste = p.tareas.reduce((a, t) => a + t.costeEstimado, 0)
+          return (
+            <div key={p.id} className="rounded-2xl p-6 bg-white/10 backdrop-blur-xl border border-white/15 shadow-lg">
+              <div className="flex items-center gap-3 mb-2">
+                <Globe className="w-4 h-4 text-cyan-300" />
+                <h3 className="text-lg font-semibold">{p.nombre}</h3>
+                <span className="ml-auto text-xs px-2 py-1 rounded bg-cyan-500/10 border border-cyan-500/20 text-cyan-200">
+                  € {coste.toLocaleString('es-ES')}
+                </span>
+              </div>
+              <p className="text-slate-200 text-sm mb-3">{p.problemaPrincipal}</p>
+              <p className="text-slate-300 text-sm mb-4">{p.solucionPrincipal}</p>
+              <div className="flex flex-wrap gap-2 text-xs mb-4">
+                {p.lineasFinanciacion?.map((l) => (
+                  <span key={l} className="px-2 py-1 rounded bg-blue-500/10 border border-blue-500/20 text-blue-200">
+                    {l}
+                  </span>
                 ))}
-              </select>
-            </label>
-            <label className="inline-flex items-center gap-2 bg-slate-900/60 border border-slate-800 rounded-xl px-3 py-2">
-              <input type="checkbox" checked={soloSinFinanciador} onChange={(e) => setSoloSinFinanciador(e.target.checked)} />
-              <span className="text-sm">Solo sin financiador</span>
-            </label>
-          </div>
-        </div>
-      </section>
+              </div>
+              <div className="flex items-center gap-3 text-sm">
+                {p.financiador ? (
+                  <span className="inline-flex items-center gap-1 text-green-300">
+                    <CheckCircle2 className="w-4 h-4" /> Vinculado: {p.financiador}
+                  </span>
+                ) : (
+                  <span className="inline-flex items-center gap-1 text-slate-300">
+                    <XCircle className="w-4 h-4" /> Sin financiador asignado
+                  </span>
+                )}
+                <a href={`mailto:${p.emailContacto}`} className="ml-auto text-cyan-200 hover:text-cyan-100">
+                  Contactar
+                </a>
+              </div>
+            </div>
+          )
+        })}
+      </div>
 
-      {/* Results */}
-      <section className="relative px-4 pb-16">
-        <div className="mx-auto max-w-6xl grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {resultados.map((p) => {
-            const total = p.tareas.reduce((acc, t) => acc + t.costeEstimado, 0)
-            const tieneFin = Boolean(p.financiador)
-            return (
-              <article key={p.id} className="group rounded-2xl bg-slate-900/60 border border-purple-500/20 hover:border-purple-400/40 transition overflow-hidden">
-                <div className="h-28 bg-gradient-to-br from-purple-500/20 to-cyan-500/20" />
-                <div className="p-5">
-                  <div className="flex items-center justify-between mb-2">
-                    <div className="flex flex-wrap gap-2">
-                      {(p.lineasFinanciacion || []).map(tag => (
-                        <span key={tag} className="text-xs px-2 py-1 rounded bg-purple-600/20 text-purple-300">{tag}</span>
-                      ))}
-                    </div>
-                    <span className="inline-flex items-center gap-1 text-xs">
-                      {tieneFin ? <CheckCircle2 className="w-4 h-4" /> : <XCircle className="w-4 h-4" />}
-                      {tieneFin ? 'Con financiador' : 'Sin financiador'}
-                    </span>
-                  </div>
-                  <h3 className="text-lg font-semibold text-white">{p.nombre}</h3>
-                  <p className="mt-1 text-slate-300 text-sm">Problema: {p.problemaPrincipal}</p>
-                  <p className="text-slate-400 text-sm">Solución: {p.solucionPrincipal}</p>
-                  <div className="mt-3 space-y-1">
-                    {p.tareas.map((t) => (
-                      <div key={t.id} className="flex items-center justify-between text-sm text-slate-300">
-                        <span className="truncate">• {t.nombre}</span>
-                        <span className="inline-flex items-center gap-1 text-cyan-300"><Euro className="w-4 h-4" />{t.costeEstimado.toLocaleString()} €</span>
-                      </div>
-                    ))}
-                  </div>
-                  <div className="mt-4 flex items-center justify-between text-sm">
-                    <span className="inline-flex items-center gap-2 text-slate-400">
-                      <Users className="w-4 h-4" /> {p.emailContacto || '—'}
-                    </span>
-                    <span className="inline-flex items-center gap-1 text-cyan-300"><Euro className="w-4 h-4" />Total: {total.toLocaleString()} €</span>
-                  </div>
-                  <div className="mt-4 flex gap-2">
-                    <a className="flex-1 text-center bg-purple-600 hover:bg-purple-500 text-white px-4 py-2 rounded-lg transition" href="#">Contactar ONGD</a>
-                    <button className="px-4 py-2 rounded-lg border border-purple-500/30 text-purple-200 hover:bg-purple-500/10 transition">Ver detalles</button>
-                  </div>
-                </div>
-              </article>
-            )
-          })}
-        </div>
-      </section>
+      {/* Separator */}
+      <div className="my-12 h-px bg-gradient-to-r from-transparent via-cyan-500/30 to-transparent" />
 
-      {/* Footer */}
-      <footer className="border-t border-slate-800/80 bg-gradient-to-t from-slate-950 via-blue-950 to-transparent">
-        <div className="mx-auto max-w-6xl px-4 py-8 text-center text-slate-400">
-          <p>© {new Date().getFullYear()} 3SN Portal RSC</p>
-        </div>
-      </footer>
+      <p className="text-slate-300 text-xs">Actualizado automáticamente con datos de ejemplo.</p>
     </main>
   )
 }
