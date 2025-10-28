@@ -1,166 +1,182 @@
 'use client'
 
+import Link from 'next/link'
+import { Rocket, Search, Building2, Globe, TrendingUp, Shield } from 'lucide-react'
+
 export default function HomePage() {
   return (
-    <main className="min-h-screen bg-[#0b1020] text-white">
-      {/* Hero */}
-      <section className="relative overflow-hidden min-h-[85vh]">
-        {/* Background Image */}
-        <div className="absolute inset-0">
-          <img 
-            src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?w=1920&q=80" 
-            alt="Professional team collaboration"
-            className="w-full h-full object-cover"
-          />
-          {/* Dark overlay */}
-          <div className="absolute inset-0 bg-gradient-to-b from-black/70 via-black/60 to-[#0b1020]"></div>
+    <main className="min-h-screen bg-gradient-to-br from-slate-950 via-blue-950 to-slate-900">
+      {/* Hero Section */}
+      <section className="relative overflow-hidden">
+        {/* Animated background */}
+        <div className="absolute inset-0 opacity-20">
+          <div className="absolute top-20 left-20 w-72 h-72 bg-cyan-500/30 rounded-full blur-3xl animate-pulse"></div>
+          <div className="absolute bottom-20 right-20 w-96 h-96 bg-blue-600/20 rounded-full blur-3xl animate-pulse delay-700"></div>
         </div>
 
-        {/* Content */}
-        <div className="relative mx-auto max-w-7xl px-4 py-20 sm:py-28 lg:py-32">
-          <div className="flex flex-col items-center text-center gap-6">
-            {/* Logo / Icon */}
-            <div className="h-16 w-16 rounded-2xl bg-gradient-to-br from-cyan-400 to-blue-600 shadow-lg shadow-cyan-500/20 grid place-items-center animate-pulse">
-              <span className="text-2xl">🌐</span>
-            </div>
-            <h1 className="text-4xl sm:text-5xl md:text-6xl font-extrabold tracking-tight drop-shadow-lg">
-              3SN Portal
-            </h1>
-            <p className="max-w-2xl text-white/90 text-lg sm:text-xl drop-shadow-md">
-              Conecta empresas, ONGDs y ciudadanía para lanzar proyectos reales de impacto,
-              RSC y trazabilidad en blockchain.
-            </p>
-            <div className="flex flex-col sm:flex-row items-center gap-3 mt-2">
-              <a 
-                href="#destacados"
-                className="inline-flex items-center gap-2 rounded-xl bg-gradient-to-r from-cyan-500 to-blue-600 px-6 py-3 text-white font-semibold shadow-lg shadow-cyan-500/30 hover:from-cyan-400 hover:to-blue-500 transition"
-              >
-                Explorar proyectos
-              </a>
-            </div>
-            {/* Center animation/icon placeholder */}
-            <div className="mt-10 w-full max-w-3xl">
-              <div className="aspect-[16/9] rounded-2xl bg-gradient-to-br from-slate-800/40 to-slate-900/40 backdrop-blur border border-cyan-500/30 grid place-items-center">
-                <div className="h-16 w-16 rounded-full border-4 border-cyan-400/60 border-t-transparent animate-spin"></div>
-              </div>
+        <div className="relative mx-auto max-w-6xl px-4 py-20 sm:py-32">
+          {/* Logo/Brand */}
+          <div className="text-center mb-8">
+            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-cyan-500/10 border border-cyan-500/20 mb-6">
+              <Globe className="w-5 h-5 text-cyan-400" />
+              <span className="text-cyan-300 font-semibold">3SN Portal RSC</span>
             </div>
           </div>
-        </div>
-      </section>
 
-      {/* Search */}
-      <section className="mx-auto max-w-5xl px-4 -mt-10">
-        <div className="rounded-2xl bg-slate-900/60 backdrop-blur border border-cyan-500/20 p-4 sm:p-6 shadow-lg shadow-cyan-500/10">
-          <form className="flex flex-col sm:flex-row gap-3" onSubmit={(e) => e.preventDefault()}>
-                          type="text"
-              placeholder="Buscar proyectos o empresas..."
-              className="flex-1 rounded-xl bg-slate-800/80 focus:bg-slate-800 border border-slate-700/60 focus:border-cyan-500/60 outline-none px-4 py-3 text-slate-100 placeholder:text-slate-400"
-            />
-            <button 
-              type="submit"
-              className="rounded-xl bg-cyan-500 hover:bg-cyan-400 text-slate-900 font-semibold px-6 py-3 transition"
+          {/* Hero Title */}
+          <h1 className="text-center text-4xl sm:text-6xl font-bold mb-6 bg-gradient-to-r from-cyan-200 via-blue-300 to-purple-300 bg-clip-text text-transparent">
+            Conectando Impacto Social<br />con Financiación Sostenible
+          </h1>
+          
+          <p className="text-center text-lg sm:text-xl text-slate-300 max-w-3xl mx-auto mb-12">
+            Plataforma integral para ONGDs y financiadores que transforma proyectos sociales en
+            oportunidades de inversión con impacto medible y trazabilidad completa.
+          </p>
+
+          {/* Stats Cards */}
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-16 max-w-4xl mx-auto">
+            <div className="bg-slate-900/60 backdrop-blur border border-cyan-500/20 rounded-xl p-6 text-center">
+              <TrendingUp className="w-8 h-8 text-cyan-400 mx-auto mb-2" />
+              <div className="text-3xl font-bold text-cyan-300">150+</div>
+              <div className="text-slate-400 text-sm">Proyectos Activos</div>
+            </div>
+            <div className="bg-slate-900/60 backdrop-blur border border-blue-500/20 rounded-xl p-6 text-center">
+              <Building2 className="w-8 h-8 text-blue-400 mx-auto mb-2" />
+              <div className="text-3xl font-bold text-blue-300">80+</div>
+              <div className="text-slate-400 text-sm">Financiadores</div>
+            </div>
+            <div className="bg-slate-900/60 backdrop-blur border border-purple-500/20 rounded-xl p-6 text-center">
+              <Shield className="w-8 h-8 text-purple-400 mx-auto mb-2" />
+              <div className="text-3xl font-bold text-purple-300">€2.5M</div>
+              <div className="text-slate-400 text-sm">Financiación Total</div>
+            </div>
+          </div>
+
+          {/* Main Action Buttons */}
+          <div className="flex flex-col sm:flex-row gap-6 justify-center items-center">
+            {/* ONGD Button */}
+            <Link
+              href="/ongd"
+              className="group relative w-full sm:w-auto"
             >
-              Buscar
-            </button>
-          </form>
+              <div className="absolute inset-0 bg-gradient-to-r from-cyan-500 to-blue-500 rounded-2xl blur-xl opacity-50 group-hover:opacity-75 transition"></div>
+              <div className="relative bg-gradient-to-r from-cyan-600 to-blue-600 hover:from-cyan-500 hover:to-blue-500 text-white px-8 py-6 rounded-2xl flex items-center gap-4 transition shadow-2xl">
+                <div className="bg-white/20 p-3 rounded-xl">
+                  <Rocket className="w-8 h-8" />
+                </div>
+                <div className="text-left">
+                  <div className="font-bold text-xl">Soy ONGD</div>
+                  <div className="text-cyan-100 text-sm">Registra tu proyecto social</div>
+                </div>
+              </div>
+            </Link>
+
+            {/* Financiador Button */}
+            <Link
+              href="/financiador"
+              className="group relative w-full sm:w-auto"
+            >
+              <div className="absolute inset-0 bg-gradient-to-r from-purple-500 to-pink-500 rounded-2xl blur-xl opacity-50 group-hover:opacity-75 transition"></div>
+              <div className="relative bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-500 hover:to-pink-500 text-white px-8 py-6 rounded-2xl flex items-center gap-4 transition shadow-2xl">
+                <div className="bg-white/20 p-3 rounded-xl">
+                  <Search className="w-8 h-8" />
+                </div>
+                <div className="text-left">
+                  <div className="font-bold text-xl">Soy Financiador</div>
+                  <div className="text-purple-100 text-sm">Busca proyectos de impacto</div>
+                </div>
+              </div>
+            </Link>
+          </div>
         </div>
       </section>
 
-      {/* Featured projects */}
-      <section className="mx-auto max-w-7xl px-4 py-16 sm:py-20" id="destacados">
-        <div className="flex items-end justify-between mb-8">
-          <h2 className="text-2xl sm:text-3xl font-bold">Proyectos destacados</h2>
-          <a className="text-cyan-400 hover:text-cyan-300" href="#">Ver todos →</a>
-        </div>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {/* Card 1 */}
-          <article className="group rounded-2xl bg-slate-900/60 border border-cyan-500/20 hover:border-cyan-400/40 transition overflow-hidden">
-            <div className="h-36 bg-gradient-to-br from-cyan-500/20 to-blue-600/20"></div>
-            <div className="p-5">
-              <div className="flex items-center justify-between mb-2">
-                <span className="text-xs px-2 py-1 rounded bg-cyan-600/20 text-cyan-300">Energía</span>
-                <span className="text-xs text-slate-400">Empresa: Solarity</span>
+      {/* Features Section */}
+      <section className="relative py-20 px-4">
+        <div className="mx-auto max-w-6xl">
+          <h2 className="text-3xl sm:text-4xl font-bold text-center mb-12 text-white">
+            ¿Cómo Funciona el Portal?
+          </h2>
+          
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+            {/* For ONGDs */}
+            <div className="bg-slate-900/60 backdrop-blur border border-cyan-500/20 rounded-2xl p-8 hover:border-cyan-400/40 transition">
+              <div className="bg-cyan-500/10 w-16 h-16 rounded-xl flex items-center justify-center mb-4">
+                <Rocket className="w-8 h-8 text-cyan-400" />
               </div>
-              <h3 className="text-lg font-semibold">Paneles solares para escuelas rurales</h3>
-              <p className="mt-2 text-slate-300 text-sm">
-                Instalación fotovoltaica con medición on-chain del impacto y transparencia total de fondos.
-              </p>
-              <div className="mt-4 flex items-center justify-between text-sm">
-                <span className="text-cyan-300">Meta: 50.000€</span>
-                <span className="text-slate-400">Impacto: 12 escuelas</span>
-              </div>
+              <h3 className="text-2xl font-bold text-white mb-4">Para ONGDs</h3>
+              <ul className="space-y-3 text-slate-300">
+                <li className="flex items-start gap-3">
+                  <span className="text-cyan-400 font-bold">1.</span>
+                  <span>Registra tu proyecto con nombre, problema y descripción</span>
+                </li>
+                <li className="flex items-start gap-3">
+                  <span className="text-cyan-400 font-bold">2.</span>
+                  <span>Sistema genera automáticamente el Marco Lógico</span>
+                </li>
+                <li className="flex items-start gap-3">
+                  <span className="text-cyan-400 font-bold">3.</span>
+                  <span>Obtén líneas de financiación adaptadas a tu proyecto</span>
+                </li>
+                <li className="flex items-start gap-3">
+                  <span className="text-cyan-400 font-bold">4.</span>
+                  <span>Tu proyecto se publica para potenciales financiadores</span>
+                </li>
+              </ul>
             </div>
-          </article>
 
-          {/* Card 2 */}
-          <article className="group rounded-2xl bg-slate-900/60 border border-cyan-500/20 hover:border-cyan-400/40 transition overflow-hidden">
-            <div className="h-36 bg-gradient-to-br from-cyan-500/20 to-blue-600/20"></div>
-            <div className="p-5">
-              <div className="flex items-center justify-between mb-2">
-                <span className="text-xs px-2 py-1 rounded bg-cyan-600/20 text-cyan-300">Agua</span>
-                <span className="text-xs text-slate-400">ONGD: AquaVida</span>
+            {/* For Financiadores */}
+            <div className="bg-slate-900/60 backdrop-blur border border-purple-500/20 rounded-2xl p-8 hover:border-purple-400/40 transition">
+              <div className="bg-purple-500/10 w-16 h-16 rounded-xl flex items-center justify-center mb-4">
+                <Search className="w-8 h-8 text-purple-400" />
               </div>
-              <h3 className="text-lg font-semibold">Pozos de agua con auditoría abierta</h3>
-              <p className="mt-2 text-slate-300 text-sm">
-                Construcción y mantenimiento con donaciones trazadas y reportes verificables por comunidad.
-              </p>
-              <div className="mt-4 flex items-center justify-between text-sm">
-                <span className="text-cyan-300">Meta: 30.000€</span>
-                <span className="text-slate-400">Impacto: 5 comunidades</span>
-              </div>
+              <h3 className="text-2xl font-bold text-white mb-4">Para Financiadores</h3>
+              <ul className="space-y-3 text-slate-300">
+                <li className="flex items-start gap-3">
+                  <span className="text-purple-400 font-bold">1.</span>
+                  <span>Explora proyectos con búsqueda avanzada y filtros</span>
+                </li>
+                <li className="flex items-start gap-3">
+                  <span className="text-purple-400 font-bold">2.</span>
+                  <span>Visualiza desglose de tareas y costes estimados</span>
+                </li>
+                <li className="flex items-start gap-3">
+                  <span className="text-purple-400 font-bold">3.</span>
+                  <span>Consulta líneas de financiación disponibles</span>
+                </li>
+                <li className="flex items-start gap-3">
+                  <span className="text-purple-400 font-bold">4.</span>
+                  <span>Conecta directamente con ONGDs de tu interés</span>
+                </li>
+              </ul>
             </div>
-          </article>
-
-          {/* Card 3 */}
-          <article className="group rounded-2xl bg-slate-900/60 border border-cyan-500/20 hover:border-cyan-400/40 transition overflow-hidden">
-            <div className="h-36 bg-gradient-to-br from-cyan-500/20 to-blue-600/20"></div>
-            <div className="p-5">
-              <div className="flex items-center justify-between mb-2">
-                <span className="text-xs px-2 py-1 rounded bg-cyan-600/20 text-cyan-300">Reciclaje</span>
-                <span className="text-xs text-slate-400">Empresa: UrbanLoop</span>
-              </div>
-              <h3 className="text-lg font-semibold">Economía circular en barrios</h3>
-              <p className="mt-2 text-slate-300 text-sm">
-                Incentivos tokenizados para separar residuos y canjear beneficios en comercios locales.
-              </p>
-              <div className="mt-4 flex items-center justify-between text-sm">
-                <span className="text-cyan-300">Meta: 20.000€</span>
-                <span className="text-slate-400">Impacto: 3 distritos</span>
-              </div>
-            </div>
-          </article>
+          </div>
         </div>
       </section>
 
-      {/* How it works */}
-      <section className="mx-auto max-w-5xl px-4 pb-16">
-        <h2 className="text-2xl sm:text-3xl font-bold mb-6">¿Cómo funciona?</h2>
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-          <div className="rounded-2xl bg-slate-900/60 border border-cyan-500/20 p-5">
-            <div className="text-2xl">🔍</div>
-            <h3 className="mt-2 font-semibold">Explora</h3>
-            <p className="text-sm text-slate-300">Encuentra iniciativas alineadas con tus valores e indicadores ESG.</p>
-          </div>
-          <div className="rounded-2xl bg-slate-900/60 border border-cyan-500/20 p-5">
-            <div className="text-2xl">🤝</div>
-            <h3 className="mt-2 font-semibold">Conecta</h3>
-            <p className="text-sm text-slate-300">Colabora con empresas, ONGDs y ciudadanía para co-crear impacto.</p>
-          </div>
-          <div className="rounded-2xl bg-slate-900/60 border border-cyan-500/20 p-5">
-            <div className="text-2xl">⛓️</div>
-            <h3 className="mt-2 font-semibold">Verifica</h3>
-            <p className="text-sm text-slate-300">Sigue la trazabilidad on-chain y mide resultados en tiempo real.</p>
+      {/* Value Proposition */}
+      <section className="relative py-20 px-4">
+        <div className="mx-auto max-w-6xl">
+          <div className="bg-gradient-to-r from-cyan-500/10 to-purple-500/10 backdrop-blur border border-cyan-500/20 rounded-3xl p-12 text-center">
+            <h2 className="text-3xl font-bold text-white mb-4">
+              Impacto Social + Transparencia + Tecnología
+            </h2>
+            <p className="text-slate-300 text-lg max-w-3xl mx-auto">
+              Utilizamos inteligencia artificial para generar marcos lógicos profesionales y
+              conectar automáticamente proyectos con las mejores fuentes de financiación.
+              Todo con trazabilidad completa y metodología probada.
+            </p>
           </div>
         </div>
       </section>
 
       {/* Footer */}
-      <footer className="border-t border-slate-800/80 bg-slate-950/40">
-        <div className="mx-auto max-w-7xl px-4 py-6 flex flex-col sm:flex-row items-center justify-between gap-3 text-slate-400">
-          © {new Date().getFullYear()} 3SN Portal
-          <span className="text-cyan-300">Hecho con Next.js + Tailwind</span>
+      <footer className="border-t border-slate-800/80 bg-slate-950/60 backdrop-blur">
+        <div className="mx-auto max-w-6xl px-4 py-8 text-center text-slate-400">
+          <p className="mb-2">© {new Date().getFullYear()} 3SN Portal RSC - Plataforma de Impacto Social</p>
+          <p className="text-sm">Desarrollado con Next.js + Tailwind CSS + IA Generativa</p>
         </div>
       </footer>
     </main>
-  );
+  )
 }
