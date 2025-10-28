@@ -1,16 +1,17 @@
+'use client'
+
 export default function HomePage() {
   return (
     <main className="min-h-screen bg-[#0b1020] text-white">
       {/* Hero */}
       <section className="relative overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-b from-cyan-500/10 via-transparent to-transparent" />
+        <div className="absolute inset-0 bg-gradient-to-b from-cyan-500/10 via-transparent to-transparent"></div>
         <div className="mx-auto max-w-7xl px-4 py-20 sm:py-28 lg:py-32">
           <div className="flex flex-col items-center text-center gap-6">
             {/* Logo / Icon */}
             <div className="h-16 w-16 rounded-2xl bg-gradient-to-br from-cyan-400 to-blue-600 shadow-lg shadow-cyan-500/20 grid place-items-center animate-pulse">
               <span className="text-2xl">🌐</span>
             </div>
-
             <h1 className="text-4xl sm:text-5xl md:text-6xl font-extrabold tracking-tight">
               3SN Portal
             </h1>
@@ -18,7 +19,6 @@ export default function HomePage() {
               Conecta empresas, ONGDs y ciudadanía para lanzar proyectos reales de impacto,
               RSC y trazabilidad en blockchain.
             </p>
-
             <div className="flex flex-col sm:flex-row items-center gap-3 mt-2">
               <a
                 href="#destacados"
@@ -27,17 +27,15 @@ export default function HomePage() {
                 Explorar proyectos
               </a>
             </div>
-
             {/* Center animation/icon placeholder */}
             <div className="mt-10 w-full max-w-3xl">
               <div className="aspect-[16/9] rounded-2xl bg-gradient-to-br from-slate-800 to-slate-900 border border-cyan-500/20 grid place-items-center">
-                <div className="h-16 w-16 rounded-full border-4 border-cyan-400/60 border-t-transparent animate-spin" />
+                <div className="h-16 w-16 rounded-full border-4 border-cyan-400/60 border-t-transparent animate-spin"></div>
               </div>
             </div>
           </div>
         </div>
       </section>
-
       {/* Search */}
       <section className="mx-auto max-w-5xl px-4 -mt-10">
         <div className="rounded-2xl bg-slate-900/60 backdrop-blur border border-cyan-500/20 p-4 sm:p-6 shadow-lg shadow-cyan-500/10">
@@ -56,18 +54,16 @@ export default function HomePage() {
           </form>
         </div>
       </section>
-
       {/* Featured projects */}
-      <section id="destacados" className="mx-auto max-w-7xl px-4 py-16 sm:py-20">
+      <section className="mx-auto max-w-7xl px-4 py-16 sm:py-20" id="destacados">
         <div className="flex items-end justify-between mb-8">
           <h2 className="text-2xl sm:text-3xl font-bold">Proyectos destacados</h2>
-          <a href="#" className="text-cyan-400 hover:text-cyan-300">Ver todos →</a>
+          <a className="text-cyan-400 hover:text-cyan-300" href="#">Ver todos →</a>
         </div>
-
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {/* Card 1 */}
           <article className="group rounded-2xl bg-slate-900/60 border border-cyan-500/20 hover:border-cyan-400/40 transition overflow-hidden">
-            <div className="h-36 bg-gradient-to-br from-cyan-500/20 to-blue-600/20" />
+            <div className="h-36 bg-gradient-to-br from-cyan-500/20 to-blue-600/20"></div>
             <div className="p-5">
               <div className="flex items-center justify-between mb-2">
                 <span className="text-xs px-2 py-1 rounded bg-cyan-600/20 text-cyan-300">Energía</span>
@@ -83,10 +79,9 @@ export default function HomePage() {
               </div>
             </div>
           </article>
-
           {/* Card 2 */}
           <article className="group rounded-2xl bg-slate-900/60 border border-cyan-500/20 hover:border-cyan-400/40 transition overflow-hidden">
-            <div className="h-36 bg-gradient-to-br from-cyan-500/20 to-blue-600/20" />
+            <div className="h-36 bg-gradient-to-br from-cyan-500/20 to-blue-600/20"></div>
             <div className="p-5">
               <div className="flex items-center justify-between mb-2">
                 <span className="text-xs px-2 py-1 rounded bg-cyan-600/20 text-cyan-300">Agua</span>
@@ -102,10 +97,9 @@ export default function HomePage() {
               </div>
             </div>
           </article>
-
           {/* Card 3 */}
           <article className="group rounded-2xl bg-slate-900/60 border border-cyan-500/20 hover:border-cyan-400/40 transition overflow-hidden">
-            <div className="h-36 bg-gradient-to-br from-cyan-500/20 to-blue-600/20" />
+            <div className="h-36 bg-gradient-to-br from-cyan-500/20 to-blue-600/20"></div>
             <div className="p-5">
               <div className="flex items-center justify-between mb-2">
                 <span className="text-xs px-2 py-1 rounded bg-cyan-600/20 text-cyan-300">Reciclaje</span>
@@ -123,7 +117,6 @@ export default function HomePage() {
           </article>
         </div>
       </section>
-
       {/* How it works */}
       <section className="mx-auto max-w-5xl px-4 pb-16">
         <h2 className="text-2xl sm:text-3xl font-bold mb-6">¿Cómo funciona?</h2>
@@ -145,11 +138,10 @@ export default function HomePage() {
           </div>
         </div>
       </section>
-
       {/* Footer */}
       <footer className="border-t border-slate-800/80 bg-slate-950/40">
         <div className="mx-auto max-w-7xl px-4 py-6 flex flex-col sm:flex-row items-center justify-between gap-3 text-slate-400">
-          <span>© {new Date().getFullYear()} 3SN Portal</span>
+          © {new Date().getFullYear()} 3SN Portal
           <span className="text-cyan-300">Hecho con Next.js + Tailwind</span>
         </div>
       </footer>
