@@ -1,6 +1,5 @@
 // Seed data for 3SN RSC Portal database
 // Companies and projects for Corporate Social Responsibility (CSR) platform
-
 export interface Company {
   id: string;
   nombre: string;
@@ -9,6 +8,18 @@ export interface Company {
   proyectos: string[]; // IDs of projects they participate in
   pais: string;
   lineasRSC: string[];
+}
+
+export interface ProjectTask {
+  id: string;
+  titulo: string;
+  descripcion: string;
+  responsable: string; // company id or role
+  fechaInicio: string; // ISO date
+  fechaFin: string; // ISO date (estimada o real)
+  estado: 'pendiente' | 'en_progreso' | 'completada' | 'bloqueada';
+  monto: number; // presupuesto asignado a la tarea
+  financiado: number; // monto efectivamente financiado hasta la fecha
 }
 
 export interface Project {
@@ -21,6 +32,7 @@ export interface Project {
   estadoFinanciacion: 'pendiente' | 'aprobado' | 'en_progreso' | 'completado' | 'rechazado';
   smartContract: string; // placeholder
   oraculo: string; // placeholder
+  tasks?: ProjectTask[]; // agregado: lista de tareas del proyecto
 }
 
 // Sample companies data
@@ -110,7 +122,42 @@ export const projectsSeed: Project[] = [
     pais: 'España',
     estadoFinanciacion: 'en_progreso',
     smartContract: '0x1a2b3c4d5e6f7890abcdef1234567890abcdef12',
-    oraculo: 'chainlink_energy_oracle_v1'
+    oraculo: 'chainlink_energy_oracle_v1',
+    tasks: [
+      {
+        id: 'task-001-01',
+        titulo: 'Estudios de viento y viabilidad',
+        descripcion: 'Mediciones anemométricas y análisis de recurso eólico',
+        responsable: 'comp-001',
+        fechaInicio: '2025-01-10',
+        fechaFin: '2025-03-15',
+        estado: 'completada',
+        monto: 120000,
+        financiado: 120000
+      },
+      {
+        id: 'task-001-02',
+        titulo: 'Permisos ambientales',
+        descripcion: 'Evaluación de impacto ambiental y licencias locales',
+        responsable: 'comp-003',
+        fechaInicio: '2025-02-01',
+        fechaFin: '2025-05-30',
+        estado: 'en_progreso',
+        monto: 180000,
+        financiado: 95000
+      },
+      {
+        id: 'task-001-03',
+        titulo: 'Instalación de turbinas',
+        descripcion: 'Compra, logística e instalación de 10 aerogeneradores',
+        responsable: 'comp-001',
+        fechaInicio: '2025-06-01',
+        fechaFin: '2025-10-31',
+        estado: 'pendiente',
+        monto: 1800000,
+        financiado: 600000
+      }
+    ]
   },
   {
     id: 'proj-002',
@@ -121,7 +168,31 @@ export const projectsSeed: Project[] = [
     pais: 'España',
     estadoFinanciacion: 'aprobado',
     smartContract: '0x2b3c4d5e6f7890ab1234567890abcdef12345678',
-    oraculo: 'textile_recycling_oracle_v2'
+    oraculo: 'textile_recycling_oracle_v2',
+    tasks: [
+      {
+        id: 'task-002-01',
+        titulo: 'Piloto de recogida selectiva',
+        descripcion: 'Implantación de puntos de recogida en 3 ciudades',
+        responsable: 'comp-002',
+        fechaInicio: '2025-02-15',
+        fechaFin: '2025-04-30',
+        estado: 'completada',
+        monto: 220000,
+        financiado: 220000
+      },
+      {
+        id: 'task-002-02',
+        titulo: 'Planta de clasificación',
+        descripcion: 'Contratación y adecuación de nave para clasificación',
+        responsable: 'comp-002',
+        fechaInicio: '2025-05-10',
+        fechaFin: '2025-08-30',
+        estado: 'en_progreso',
+        monto: 750000,
+        financiado: 410000
+      }
+    ]
   },
   {
     id: 'proj-003',
@@ -132,7 +203,31 @@ export const projectsSeed: Project[] = [
     pais: 'España',
     estadoFinanciacion: 'en_progreso',
     smartContract: '0x3c4d5e6f7890ab1234567890abcdef1234567890',
-    oraculo: 'smart_city_metrics_oracle'
+    oraculo: 'smart_city_metrics_oracle',
+    tasks: [
+      {
+        id: 'task-003-01',
+        titulo: 'Sensórica de calidad del aire',
+        descripcion: 'Despliegue de 200 sensores urbanos y red LoRa',
+        responsable: 'comp-007',
+        fechaInicio: '2025-03-01',
+        fechaFin: '2025-07-15',
+        estado: 'en_progreso',
+        monto: 950000,
+        financiado: 520000
+      },
+      {
+        id: 'task-003-02',
+        titulo: 'Plataforma de datos abiertos',
+        descripcion: 'Portal ciudadano para visualización en tiempo real',
+        responsable: 'comp-001',
+        fechaInicio: '2025-04-10',
+        fechaFin: '2025-09-30',
+        estado: 'pendiente',
+        monto: 400000,
+        financiado: 120000
+      }
+    ]
   },
   {
     id: 'proj-004',
@@ -165,7 +260,20 @@ export const projectsSeed: Project[] = [
     pais: 'España',
     estadoFinanciacion: 'en_progreso',
     smartContract: '0x6f7890ab1234567890abcdef1234567890123456',
-    oraculo: 'connectivity_metrics_oracle'
+    oraculo: 'connectivity_metrics_oracle',
+    tasks: [
+      {
+        id: 'task-006-01',
+        titulo: 'Despliegue de torres',
+        descripcion: 'Construcción de 15 torres y backhaul',
+        responsable: 'comp-004',
+        fechaInicio: '2025-03-20',
+        fechaFin: '2025-11-30',
+        estado: 'en_progreso',
+        monto: 2200000,
+        financiado: 900000
+      }
+    ]
   },
   {
     id: 'proj-007',
@@ -176,7 +284,31 @@ export const projectsSeed: Project[] = [
     pais: 'Internacional',
     estadoFinanciacion: 'aprobado',
     smartContract: '0x7890ab1234567890abcdef123456789012345678',
-    oraculo: 'education_ai_metrics_oracle'
+    oraculo: 'education_ai_metrics_oracle',
+    tasks: [
+      {
+        id: 'task-007-01',
+        titulo: 'Dataset accesible y anonimizado',
+        descripcion: 'Curación y anonimización de datos educativos',
+        responsable: 'comp-006',
+        fechaInicio: '2025-01-25',
+        fechaFin: '2025-04-20',
+        estado: 'completada',
+        monto: 180000,
+        financiado: 180000
+      },
+      {
+        id: 'task-007-02',
+        titulo: 'MVP de recomendación',
+        descripcion: 'Motor de IA para itinerarios personalizados',
+        responsable: 'comp-004',
+        fechaInicio: '2025-05-01',
+        fechaFin: '2025-08-15',
+        estado: 'en_progreso',
+        monto: 550000,
+        financiado: 310000
+      }
+    ]
   },
   {
     id: 'proj-008',
@@ -230,15 +362,4 @@ export const projectsSeed: Project[] = [
     participantes: ['comp-008'],
     pais: 'Internacional',
     estadoFinanciacion: 'aprobado',
-    smartContract: '0xc234567890abcdef123456789012345678901bcd',
-    oraculo: 'sustainable_packaging_oracle'
-  }
-];
-
-// Export combined seed data
-export const seedData = {
-  companies: companiesSeed,
-  projects: projectsSeed
-};
-
-export default seedData;
+    smartContract: '0xc234567890
