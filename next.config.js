@@ -12,6 +12,7 @@ const nextConfig = {
       '*.supabase.co',
       'github.com',
       'avatars.githubusercontent.com'
+            'images.unsplash.com',
     ],
     formats: ['image/webp', 'image/avif'],
   },
