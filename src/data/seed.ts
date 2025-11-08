@@ -362,4 +362,5 @@ export const projectsSeed: Project[] = [
     participantes: ['comp-008'],
     pais: 'Internacional',
     estadoFinanciacion: 'aprobado',
-    smartContract: '0xc234567890
+    smartContract: '0xc234567890,
+    oraculo: 'sustainable_packaging_oracle'
