@@ -59,7 +59,7 @@ export default function BusquedaPage() {
   const [searchTerm, setSearchTerm] = useState('')
   const [selectedCategory, setSelectedCategory] = useState('all')
 
-  const categories = ['all', ...new Set(projects.map(p => p.category))]
+  const categories = ['all', ...Array.from(new Set(projects.map(p => p.category)))]
 
   const filteredProjects = projects.filter(project => {
     const matchesSearch = project.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
