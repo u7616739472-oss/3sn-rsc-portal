@@ -1,7 +1,7 @@
 "use client"
 import Link from 'next/link'
 import Image from 'next/image'
-import { Search, Building2, GraduationCap, ShoppingCart, Stethoscope, Leaf, BadgeCheck, ArrowRight } from 'lucide-react'
+import { Search } from 'lucide-react'
 import { useState } from 'react'
 
 const projects = [
@@ -11,7 +11,7 @@ const projects = [
     description: "Plataforma integral para gestión de estudiantes, cursos y calificaciones",
     category: "Educación",
     status: "En desarrollo",
-    icon: GraduationCap,
+    image: "https://images.unsplash.com/photo-1524178232363-1fb2b075b655?w=400&h=300&fit=crop"
   },
   {
     id: 2,
@@ -19,178 +19,209 @@ const projects = [
     description: "Sistema IoT para monitoreo de calidad del aire y condiciones ambientales",
     category: "Medio Ambiente",
     status: "Completado",
-    icon: Leaf,
+    image: "https://images.unsplash.com/photo-1473341304170-971dccb5ac1e?w=400&h=300&fit=crop"
   },
   {
     id: 3,
-    title: "Plataforma de E-commerce",
-    description: "Tienda en línea con pagos e inventario",
-    category: "Comercio",
-    status: "En desarrollo",
-    icon: ShoppingCart,
+    title: "Plataforma de Microfinanzas",
+    description: "Solución blockchain para facilitar microcréditos a comunidades rurales",
+    category: "Finanzas",
+    status: "En progreso",
+    image: "https://images.unsplash.com/photo-1559526324-4b87b5e36e44?w=400&h=300&fit=crop"
   },
-]
-
-const categories = [
-  "Todas las categorías",
-  "Educación",
-  "Medio Ambiente",
-  "Comercio",
-  "Salud",
-  "Infraestructura",
+  {
+    id: 4,
+    title: "Red de Telemedicina",
+    description: "Conecta pacientes rurales con profesionales de la salud",
+    category: "Salud",
+    status: "Activo",
+    image: "https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?w=400&h=300&fit=crop"
+  },
+  {
+    id: 5,
+    title: "Gestión de Recursos Hídricos",
+    description: "Sistema de monitoreo y optimización del uso de agua",
+    category: "Medio Ambiente",
+    status: "En desarrollo",
+    image: "https://images.unsplash.com/photo-1583224964211-e5e84dc80e7f?w=400&h=300&fit=crop"
+  },
+  {
+    id: 6,
+    title: "Programa de Alfabetización Digital",
+    description: "Iniciativa para enseñar habilidades tecnológicas básicas",
+    category: "Educación",
+    status: "Activo",
+    image: "https://images.unsplash.com/photo-1503676260728-1c00da094a0b?w=400&h=300&fit=crop"
+  }
 ]
 
 export default function BusquedaPage() {
-  const [searchQuery, setSearchQuery] = useState('')
-  const [selectedCategory, setSelectedCategory] = useState('Todas las categorías')
+  const [searchTerm, setSearchTerm] = useState('')
+  const [selectedCategory, setSelectedCategory] = useState('all')
+
+  const categories = ['all', ...new Set(projects.map(p => p.category))]
+
+  const filteredProjects = projects.filter(project => {
+    const matchesSearch = project.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                         project.description.toLowerCase().includes(searchTerm.toLowerCase())
+    const matchesCategory = selectedCategory === 'all' || project.category === selectedCategory
+    return matchesSearch && matchesCategory
+  })
 
   return (
-    <div className="relative min-h-screen w-full overflow-x-hidden bg-black text-white">
+    <div className="min-h-screen bg-gradient-to-br from-gray-900 via-gray-800 to-black">
       {/* Video Background */}
-      <video
-        autoPlay
-        muted
-        loop
-        playsInline
-        className="fixed inset-0 h-full w-full object-cover opacity-30"
-        src="/video/bg-loop.mp4"
-      />
-      <div className="pointer-events-none fixed inset-0 bg-gradient-to-b from-black/50 via-black/20 to-black/80" />
+      <div className="fixed inset-0 w-full h-full overflow-hidden -z-10">
+        <video
+          autoPlay
+          loop
+          muted
+          playsInline
+          className="absolute w-full h-full object-cover opacity-20"
+        >
+          <source src="https://assets.mixkit.co/videos/preview/mixkit-digital-animation-of-futuristic-devices-99788-large.mp4" type="video/mp4" />
+        </video>
+        <div className="absolute inset-0 bg-gradient-to-b from-gray-900/50 via-gray-900/70 to-gray-900/90" />
+      </div>
 
       {/* Header */}
-      <header className="sticky top-0 z-20 w-full backdrop-blur supports-[backdrop-filter]:bg-black/30 bg-black/20">
-        <div className="mx-auto flex max-w-7xl items-center justify-between px-6 py-3">
-          <Link href="/" className="flex items-center gap-3">
-            <Image
-              alt="3SN"
-              className="rounded-full ring-1 ring-white/20"
-              height={36}
-              src="/logo.svg"
-              width={36}
-            />
-            <span className="text-lg font-semibold tracking-tight text-orange-500">3SN Portal RSC</span>
-          </Link>
-          <nav className="hidden gap-6 md:flex">
-            <Link className="text-sm text-white transition-colors hover:text-orange-400" href="/">
-              Inicio
+      <header className="relative bg-black/30 backdrop-blur-md border-b border-white/10">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex justify-between items-center py-4">
+            <Link href="/" className="flex items-center space-x-3">
+              <Image src="/logo.png" alt="3SN Portal" width={40} height={40} className="rounded-lg" />
+              <span className="text-2xl font-bold bg-gradient-to-r from-orange-500 to-orange-300 text-transparent bg-clip-text">
+                3SN Portal RSC
+              </span>
             </Link>
-            <Link className="text-sm text-orange-400 transition-colors" href="/busqueda">
-              Búsqueda
-            </Link>
-            <Link className="text-sm text-white/80 hover:text-orange-400 transition-colors" href="/financiador">
-              Financiadores
-            </Link>
-            <Link className="text-sm text-white/80 hover:text-orange-400 transition-colors" href="/ongd">
-              ONGDs
-            </Link>
-          </nav>
+            <nav className="hidden md:flex space-x-8">
+              <Link href="/" className="text-gray-300 hover:text-orange-500 transition-colors">Inicio</Link>
+              <Link href="/busqueda" className="text-orange-500 font-semibold">Búsqueda</Link>
+              <Link href="/financiadores" className="text-gray-300 hover:text-orange-500 transition-colors">Financiadores</Link>
+              <Link href="/ongd" className="text-gray-300 hover:text-orange-500 transition-colors">ONGDs</Link>
+            </nav>
+          </div>
         </div>
       </header>
 
       {/* Main Content */}
-      <main className="relative z-10 mx-auto w-full max-w-7xl px-6 pb-24 pt-8 md:pt-16">
-        {/* Hero Section */}
-        <div className="mb-16 text-center">
-          <div className="mb-6 flex justify-center">
-            <Image
-              alt="3SN"
-              className="rounded-2xl bg-white/10 p-4 ring-1 ring-white/20"
-              height={100}
-              src="/logo.svg"
-              width={100}
-            />
-          </div>
-          <h1 className="mb-4 text-4xl font-bold tracking-tight md:text-5xl">
-            Busca Proyectos de <span className="text-orange-500">Impacto Social</span>
+      <main className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+        {/* Title Section */}
+        <div className="text-center mb-12">
+          <h1 className="text-5xl md:text-6xl font-bold mb-4">
+            <span className="bg-gradient-to-r from-orange-500 via-orange-400 to-yellow-400 text-transparent bg-clip-text">
+              Busca Proyectos
+            </span>
           </h1>
-          <p className="mx-auto max-w-2xl text-lg text-gray-300">
+          <p className="text-xl text-gray-300 max-w-3xl mx-auto">
             Explora proyectos verificados que generan impacto real. Filtra por categoría y encuentra oportunidades de financiamiento sostenible.
           </p>
         </div>
 
-        {/* Search Bar */}
-        <div className="mb-12">
-          <div className="mx-auto max-w-4xl">
-            <div className="relative mb-4">
-              <Search className="absolute left-4 top-1/2 h-5 w-5 -translate-y-1/2 text-gray-400" />
-              <input
-                type="text"
-                placeholder="Buscar proyectos..."
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                className="w-full rounded-2xl border border-white/10 bg-white/5 px-12 py-4 text-white placeholder-gray-400 backdrop-blur-sm transition-all focus:border-orange-500/50 focus:bg-white/10 focus:outline-none focus:ring-2 focus:ring-orange-500/20"
-              />
+        {/* Search Bar - Centered */}
+        <div className="max-w-3xl mx-auto mb-12">
+          <div className="relative">
+            <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+              <Search className="h-6 w-6 text-orange-500" />
             </div>
-            <div className="flex justify-center">
-              <select
-                value={selectedCategory}
-                onChange={(e) => setSelectedCategory(e.target.value)}
-                className="rounded-xl border border-white/10 bg-white/5 px-6 py-2 text-white backdrop-blur-sm transition-all focus:border-orange-500/50 focus:outline-none focus:ring-2 focus:ring-orange-500/20"
+            <input
+              type="text"
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+              placeholder="Buscar proyectos..."
+              className="w-full pl-12 pr-4 py-4 bg-white/10 backdrop-blur-md border border-white/20 rounded-xl text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent text-lg"
+            />
+          </div>
+        </div>
+
+        {/* Category Filter */}
+        <div className="flex justify-center mb-12">
+          <div className="inline-flex bg-white/5 backdrop-blur-md rounded-xl p-2 border border-white/10">
+            {categories.map(category => (
+              <button
+                key={category}
+                onClick={() => setSelectedCategory(category)}
+                className={`px-6 py-2 rounded-lg transition-all ${
+                  selectedCategory === category
+                    ? 'bg-orange-500 text-white shadow-lg'
+                    : 'text-gray-300 hover:text-white hover:bg-white/10'
+                }`}
               >
-                {categories.map((cat) => (
-                  <option key={cat} value={cat} className="bg-gray-900">
-                    {cat}
-                  </option>
-                ))}
-              </select>
-            </div>
+                {category === 'all' ? 'Todas las categorías' : category}
+              </button>
+            ))}
           </div>
         </div>
 
         {/* Projects Grid */}
-        <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-          {projects.map((project) => {
-            const Icon = project.icon
-            return (
-              <div
-                key={project.id}
-                className="group relative overflow-hidden rounded-2xl border border-white/10 bg-white/5 p-6 backdrop-blur-sm transition-all hover:border-orange-500/50 hover:bg-white/10 hover:shadow-xl hover:shadow-orange-500/10"
-              >
-                {/* Icon */}
-                <div className="mb-4 inline-flex rounded-xl bg-orange-500/10 p-3 text-orange-500">
-                  <Icon className="h-6 w-6" />
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          {filteredProjects.map((project) => (
+            <div
+              key={project.id}
+              className="group relative bg-white/5 backdrop-blur-md border border-white/10 rounded-2xl overflow-hidden hover:border-orange-500/50 transition-all duration-300 hover:transform hover:scale-105"
+            >
+              {/* Project Image */}
+              <div className="relative h-48 overflow-hidden">
+                <img
+                  src={project.image}
+                  alt={project.title}
+                  className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-gray-900 via-gray-900/40 to-transparent" />
+                
+                {/* Status Badge */}
+                <div className="absolute top-4 right-4">
+                  <span className="px-3 py-1 bg-orange-500/90 backdrop-blur-sm text-white text-sm font-semibold rounded-full">
+                    {project.status}
+                  </span>
                 </div>
+              </div>
 
-                {/* Title & Category */}
-                <h3 className="mb-2 text-xl font-semibold">{project.title}</h3>
-                <p className="mb-1 text-sm text-orange-400">{project.category}</p>
-                <span className="mb-4 inline-block rounded-full bg-white/10 px-3 py-1 text-xs text-gray-300">
-                  {project.status}
-                </span>
-
-                {/* Description */}
-                <p className="mb-6 text-sm leading-relaxed text-gray-300">
+              {/* Project Content */}
+              <div className="p-6">
+                <div className="mb-3">
+                  <span className="inline-block px-3 py-1 bg-orange-500/20 text-orange-400 text-sm font-medium rounded-full">
+                    {project.category}
+                  </span>
+                </div>
+                <h3 className="text-xl font-bold text-white mb-3 group-hover:text-orange-400 transition-colors">
+                  {project.title}
+                </h3>
+                <p className="text-gray-400 text-sm mb-4 line-clamp-2">
                   {project.description}
                 </p>
-
-                {/* CTA Button */}
-                <button className="inline-flex w-full items-center justify-center gap-2 rounded-xl bg-orange-500 px-4 py-2.5 text-sm font-semibold text-white transition-all hover:bg-orange-600 hover:gap-3">
-                  Ver detalle
-                  <ArrowRight className="h-4 w-4" />
-                </button>
+                <Link
+                  href={`/proyecto/${project.id}`}
+                  className="inline-flex items-center text-orange-500 hover:text-orange-400 font-semibold transition-colors"
+                >
+                  Ver detalles
+                  <svg className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                  </svg>
+                </Link>
               </div>
-            )
-          })}
+            </div>
+          ))}
         </div>
 
-        {/* Empty State */}
-        {projects.length === 0 && (
-          <div className="py-20 text-center">
-            <div className="mb-4 flex justify-center">
-              <Search className="h-16 w-16 text-gray-600" />
+        {/* No Results */}
+        {filteredProjects.length === 0 && (
+          <div className="text-center py-20">
+            <div className="inline-flex items-center justify-center w-20 h-20 bg-orange-500/20 rounded-full mb-6">
+              <Search className="w-10 h-10 text-orange-500" />
             </div>
-            <h3 className="mb-2 text-xl font-semibold text-gray-400">No se encontraron proyectos</h3>
-            <p className="text-gray-500">Intenta con otros términos de búsqueda o categorías</p>
+            <h3 className="text-2xl font-bold text-white mb-2">No se encontraron proyectos</h3>
+            <p className="text-gray-400">Intenta con otros términos de búsqueda o categorías</p>
           </div>
         )}
       </main>
 
       {/* Footer */}
-      <footer className="relative z-10 border-t border-white/10 bg-black/30 py-8 backdrop-blur">
-        <div className="mx-auto max-w-7xl px-6 text-center">
-          <p className="text-sm text-gray-400">
-            © 2025 3SN Portal RSC. Conectando impacto social con financiación sostenible.
-          </p>
+      <footer className="relative bg-black/30 backdrop-blur-md border-t border-white/10 py-8 mt-20">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center text-gray-400">
+            <p>&copy; 2024 3SN Portal RSC. Conectando Impacto Social con Financiación Sostenible.</p>
+          </div>
         </div>
       </footer>
     </div>
