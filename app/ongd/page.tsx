@@ -267,3 +267,85 @@ function Layout({ children }: { children: React.ReactNode }) {
       <header className="sticky top-0 z-20 w-full backdrop-blur supports-[backdrop-filter]:bg-black/30 bg-black/20">
         <div className="mx-auto flex max-w-7xl items-center justify-between px-6 py-3">
           <Link className="flex items-center gap-3" href="/">
+
+            <Image
+              alt="3SN"
+              className="rounded-full ring-1 ring-white/20"
+              height={36}
+              src="/logo.svg"
+              width={36}
+            />
+            <span className="text-lg font-semibold tracking-tight text-orange-500">3SN Portal RSC</span>
+          </Link>
+          <nav className="hidden gap-6 md:flex">
+            <Link className="text-sm text-white/80 hover:text-orange-400 transition-colors" href="/">
+              Inicio
+            </Link>
+            <Link className="text-sm text-white/80 hover:text-orange-400 transition-colors" href="/busqueda">
+              Búsqueda
+            </Link>
+            <Link className="text-sm text-white/80 hover:text-orange-400 transition-colors" href="/financiador">
+              Financiadores
+            </Link>
+            <Link className="text-sm text-orange-400 transition-colors" href="/ongd">
+              ONGDs
+            </Link>
+          </nav>
+        </div>
+      </header>
+      <main className="relative z-10 mx-auto w-full max-w-7xl px-6 pb-24 pt-8 md:pt-16">
+        {children}
+      </main>
+      <footer className="relative z-10 border-t border-white/10 bg-black/30 py-8 backdrop-blur">
+        <div className="mx-auto max-w-7xl px-6 text-center">
+          <p className="text-sm text-gray-400">
+            © 2025 3SN Portal RSC. Conectando impacto social con financiación sostenible.
+          </p>
+        </div>
+      </footer>
+    </div>
+  )
+}
+
+export default function ONGDPage() {
+  const [proyectos, setProyectos] = useState(proyectosMock)
+  const [selectedId, setSelectedId] = useState<string | null>(null)
+  const selectedProyecto = proyectos.find((p) => p.id === selectedId)
+
+  function handleCreate(nuevo: Proyecto) {
+    setProyectos((prev) => [nuevo, ...prev])
+  }
+
+  return (
+    <Layout>
+      <div className="space-y-12">
+        <div className="text-center">
+          <h1 className="mb-4 text-4xl font-bold tracking-tight md:text-5xl">
+            Panel <span className="text-orange-500">ONGD</span>
+          </h1>
+          <p className="mx-auto max-w-2xl text-lg text-gray-300">
+            Gestiona tus proyectos de impacto social y visualiza el estado de financiamiento en tiempo real.
+          </p>
+        </div>
+
+        <ProyectoForm onCreate={handleCreate} />
+
+        <div>
+          <h2 className="mb-6 text-2xl font-semibold">Proyectos Activos</h2>
+          <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+            {proyectos.map((p) => (
+              <ProyectoCard key={p.id} p={p} onSelect={setSelectedId} />
+            ))}
+          </div>
+        </div>
+
+        {selectedProyecto && (
+          <div>
+            <h2 className="mb-6 text-2xl font-semibold">Detalle de Tareas</h2>
+            <TareasPanel proyecto={selectedProyecto} />
+          </div>
+        )}
+      </div>
+    </Layout>
+  )
+}
