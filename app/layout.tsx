@@ -1,122 +1,48 @@
-import './globals.css';
-import Link from 'next/link';
-import Image from 'next/image';
+import type { Metadata } from 'next'
+import Link from 'next/link'
+import './globals.css'
 
-export const metadata = {
-  title: '3SN Portal RSC',
-  description: 'Conectando impacto social con financiación sostenible',
-};
+export const metadata: Metadata = {
+  title: '3SN Portal RSC - Conectando Impacto Social con Financiacion',
+  description: 'Plataforma que conecta empresas RSC con ONGDs verificadas. Scoring automatico, desembolso por hitos y ROI social cuantificado.',
+  keywords: ['RSC', 'ONGD', 'impacto social', 'ESG', 'sostenibilidad', 'financiacion social'],
+}
 
-export default function RootLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="es">
-      <body
-        style={{
-          margin: 0,
-          padding: 0,
-          minHeight: '100vh',
-          background: '#000000',
-          color: '#ffffff',
-          fontFamily: 'system-ui, -apple-system, sans-serif',
-        }}
-      >
-        {/* Header */}
-        <header
-          style={{
-            position: 'sticky',
-            top: 0,
-            zIndex: 50,
-            width: '100%',
-            backdropFilter: 'blur(20px)',
-            background: 'rgba(0,0,0,0.7)',
-            borderBottom: '1px solid rgba(255,153,0,0.2)',
-          }}
-        >
-          <div
-            style={{
-              maxWidth: 1200,
-              margin: '0 auto',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'space-between',
-              padding: '0.75rem 1.5rem',
-            }}
-          >
-            {/* Logo */}
-            <Link href="/" style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', textDecoration: 'none' }}>
-              <Image
-                alt="3SN Portal RSC Logo"
-                src="/logo.png"
-                width={40}
-                height={40}
-                style={{ borderRadius: '50%' }}
-              />
-              <span style={{ fontSize: '1.1rem', fontWeight: 700, color: '#FF9900', letterSpacing: '-0.02em' }}>
-                3SN Portal RSC
-              </span>
-            </Link>
-
-            {/* Navigation */}
-            <nav style={{ display: 'flex', gap: '2rem' }}>
-              <Link href="/" style={{ color: 'rgba(255,255,255,0.8)', textDecoration: 'none', fontSize: 14, transition: 'color 0.2s' }}>
-                Inicio
-              </Link>
-              <Link href="/busqueda" style={{ color: 'rgba(255,255,255,0.8)', textDecoration: 'none', fontSize: 14 }}>
-                Búsqueda
-              </Link>
-              <Link href="/financiador" style={{ color: 'rgba(255,255,255,0.8)', textDecoration: 'none', fontSize: 14 }}>
-                Financiadores
-              </Link>
-              <Link href="/ongd" style={{ color: 'rgba(255,255,255,0.8)', textDecoration: 'none', fontSize: 14 }}>
-                ONGDs
-              </Link>
-            </nav>
-          </div>
+      <body style={{ margin: 0, fontFamily: "'Inter', 'Segoe UI', sans-serif", background: '#0a0a0a', color: '#fff' }}>
+        <header style={{ position: 'sticky', top: 0, zIndex: 100, background: 'rgba(10,10,10,0.95)', backdropFilter: 'blur(12px)', borderBottom: '1px solid rgba(255,255,255,0.08)', padding: '0 2rem', height: 64, display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+          <Link href="/" style={{ display: 'flex', alignItems: 'center', gap: '0.6rem', textDecoration: 'none' }}>
+            <img src="/logo.png" alt="3SN" style={{ height: 36, width: 36, borderRadius: '50%', objectFit: 'cover' }} />
+            <span style={{ fontWeight: 800, fontSize: '1.05rem', color: '#FF9900', letterSpacing: '-0.02em' }}>3SN Portal RSC</span>
+          </Link>
+          <nav style={{ display: 'flex', gap: '0.25rem', alignItems: 'center' }}>
+            <Link href="/" style={{ color: 'rgba(255,255,255,0.7)', textDecoration: 'none', padding: '0.4rem 0.85rem', borderRadius: 8, fontSize: '0.9rem', fontWeight: 500 }}>Inicio</Link>
+            <Link href="/busqueda" style={{ color: 'rgba(255,255,255,0.7)', textDecoration: 'none', padding: '0.4rem 0.85rem', borderRadius: 8, fontSize: '0.9rem', fontWeight: 500 }}>Proyectos</Link>
+            <Link href="/destacados" style={{ color: 'rgba(255,255,255,0.7)', textDecoration: 'none', padding: '0.4rem 0.85rem', borderRadius: 8, fontSize: '0.9rem', fontWeight: 500 }}>Destacados</Link>
+            <Link href="/financiador" style={{ color: 'rgba(255,255,255,0.7)', textDecoration: 'none', padding: '0.4rem 0.85rem', borderRadius: 8, fontSize: '0.9rem', fontWeight: 500 }}>Financiadores</Link>
+            <Link href="/ongd" style={{ background: '#FF9900', color: '#000', textDecoration: 'none', padding: '0.45rem 1rem', borderRadius: 8, fontSize: '0.9rem', fontWeight: 700, marginLeft: '0.5rem' }}>Panel ONGD</Link>
+          </nav>
         </header>
-
-        {/* Main Content */}
-        <main>{children}</main>
-
-        {/* Footer */}
-        <footer
-          style={{
-            borderTop: '1px solid rgba(255,255,255,0.1)',
-            background: 'rgba(0,0,0,0.5)',
-            padding: '2rem 1.5rem',
-            marginTop: '4rem',
-          }}
-        >
-          <div
-            style={{
-              maxWidth: 1200,
-              margin: '0 auto',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'space-between',
-              flexWrap: 'wrap',
-              gap: '1rem',
-            }}
-          >
-            <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
-              <Image alt="3SN" src="/logo.png" width={32} height={32} style={{ borderRadius: '50%' }} />
-              <span style={{ fontWeight: 600, color: '#FF9900' }}>3SN Portal RSC</span>
+        <div style={{ minHeight: 'calc(100vh - 64px)' }}>{children}</div>
+        <footer style={{ background: '#0d0d0d', borderTop: '1px solid rgba(255,255,255,0.06)', padding: '2.5rem 2rem' }}>
+          <div style={{ maxWidth: 1100, margin: '0 auto', display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '1.5rem' }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '0.6rem' }}>
+              <img src="/logo.png" alt="3SN" style={{ height: 28, width: 28, borderRadius: '50%' }} />
+              <span style={{ fontWeight: 700, color: '#FF9900', fontSize: '0.95rem' }}>3SN Portal RSC</span>
             </div>
-            <div style={{ display: 'flex', gap: '1.5rem' }}>
-              <Link href="/" style={{ color: 'rgba(255,255,255,0.6)', textDecoration: 'none', fontSize: 13 }}>Inicio</Link>
-              <Link href="/busqueda" style={{ color: 'rgba(255,255,255,0.6)', textDecoration: 'none', fontSize: 13 }}>Búsqueda</Link>
-              <Link href="/financiador" style={{ color: 'rgba(255,255,255,0.6)', textDecoration: 'none', fontSize: 13 }}>Financiadores</Link>
-              <Link href="/ongd" style={{ color: 'rgba(255,255,255,0.6)', textDecoration: 'none', fontSize: 13 }}>ONGDs</Link>
-            </div>
-            <p style={{ color: 'rgba(255,255,255,0.4)', fontSize: 12 }}>
-              © 2025 3SN Portal RSC. Transformando el impacto social.
-            </p>
+            <nav style={{ display: 'flex', gap: '1.5rem', flexWrap: 'wrap' }}>
+              <Link href="/" style={{ color: 'rgba(255,255,255,0.5)', textDecoration: 'none', fontSize: '0.85rem' }}>Inicio</Link>
+              <Link href="/busqueda" style={{ color: 'rgba(255,255,255,0.5)', textDecoration: 'none', fontSize: '0.85rem' }}>Proyectos</Link>
+              <Link href="/destacados" style={{ color: 'rgba(255,255,255,0.5)', textDecoration: 'none', fontSize: '0.85rem' }}>Destacados</Link>
+              <Link href="/financiador" style={{ color: 'rgba(255,255,255,0.5)', textDecoration: 'none', fontSize: '0.85rem' }}>Financiadores</Link>
+              <Link href="/ongd" style={{ color: 'rgba(255,255,255,0.5)', textDecoration: 'none', fontSize: '0.85rem' }}>Panel ONGD</Link>
+            </nav>
+            <span style={{ color: 'rgba(255,255,255,0.3)', fontSize: '0.82rem' }}>2025 3SN Portal RSC. Transformando el impacto social.</span>
           </div>
         </footer>
       </body>
     </html>
-  );
+  )
 }
