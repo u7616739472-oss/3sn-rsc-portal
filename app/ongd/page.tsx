@@ -1,351 +1,225 @@
-"use client"
-
-import { useMemo, useState } from 'react'
-import Link from 'next/link'
+'use client'
+import { useState } from 'react'
 import Image from 'next/image'
-import { Users, ArrowRight, PlusCircle, CheckCircle2, CircleDashed, Coins, ListTodo } from 'lucide-react'
 
-// Draft structure for /app/ongd/page.tsx
-// ------------------------------------------------------------
-// Secciones:
-// 1) Formulario de alta de proyecto (mock submit) -> listo para conectar a seed/endpoint
-// 2) Listado de proyectos con % financiado y botón para ver tareas
-// 3) Panel de detalle de tareas por proyecto con monto y estado de financiación
-// Datos: mock "reales" con estructura coherente con posible seed/API
-// Comentarios marcados con DRAFT: para facilitar futura implementación
-// ------------------------------------------------------------
-
-// DRAFT: Tipos base que podrían moverse a src/data/types.ts
-export type Tarea = {
-  id: string
-  titulo: string
-  monto: number // en EUR
-  financiado: number // en EUR
+type Tarea = { id: string; titulo: string; monto: number; financiado: number }
+type Proyecto = {
+  id: string; nombre: string; ongd: string; categoria: string
+  descripcion: string; imagen: string; presupuesto: number; financiado: number; tareas: Tarea[]
 }
 
-export type Proyecto = {
-  id: string
-  nombre: string
-  ongdId: string
-  ongdNombre: string
-  descripcion: string
-  categoria: 'Educación' | 'Salud' | 'Medio Ambiente' | 'Desarrollo'
-  imagen: string
-  presupuesto: number // total proyecto
-  financiado: number // total financiado
-  tareas: Tarea[]
-}
-
-// DRAFT: MOCK DATA - listo para leer desde seed o endpoint
-// Si se usa Prisma/seed, mantener la estructura clave para facilitar hydrate.
-const proyectosMock: Proyecto[] = [
+const proyectos: Proyecto[] = [
   {
-    id: 'p-edu-001',
-    nombre: 'Aulas Digitales Rurales',
-    ongdId: 'ong-001',
-    ongdNombre: 'Fundación Horizonte',
-    descripcion: 'Dotación de kits de tablets, formación docente y conectividad en 10 escuelas rurales.',
+    id: 'p1', nombre: 'Aulas Digitales Rurales', ongd: 'Fundación Horizonte',
     categoria: 'Educación',
-    imagen: 'https://images.unsplash.com/photo-1523580846011-d3a5bc25702b?q=80&w=1200&auto=format&fit=crop',
-    presupuesto: 60000,
-    financiado: 24500,
+    descripcion: 'Dotación de tablets, formación docente y conectividad en 10 escuelas rurales de España.',
+    imagen: 'https://images.unsplash.com/photo-1523580846011-d3a5bc25702b?w=800&h=400&fit=crop',
+    presupuesto: 60000, financiado: 24500,
     tareas: [
-      { id: 't-001', titulo: 'Compra de 100 tablets', monto: 30000, financiado: 18000 },
-      { id: 't-002', titulo: 'Capacitación a 20 docentes', monto: 15000, financiado: 4500 },
-      { id: 't-003', titulo: 'Routers y datos 12 meses', monto: 15000, financiado: 2000 },
+      { id: 't1', titulo: 'Compra de 100 tablets', monto: 30000, financiado: 18000 },
+      { id: 't2', titulo: 'Capacitación a 20 docentes', monto: 15000, financiado: 4500 },
+      { id: 't3', titulo: 'Routers y datos 12 meses', monto: 15000, financiado: 2000 },
     ],
   },
   {
-    id: 'p-sal-002',
-    nombre: 'Clínica Móvil Comunitaria',
-    ongdId: 'ong-003',
-    ongdNombre: 'Salud al Día',
-    descripcion: 'Unidad móvil para prevención y chequeos en 15 comunidades.',
+    id: 'p2', nombre: 'Clínica Móvil Comunitaria', ongd: 'Salud al Día',
     categoria: 'Salud',
-    imagen: 'https://images.unsplash.com/photo-1586773860418-d37222d8fce3?q=80&w=1200&auto=format&fit=crop',
-    presupuesto: 95000,
-    financiado: 62000,
+    descripcion: 'Unidad móvil para prevención y chequeos básicos en 15 comunidades vulnerables.',
+    imagen: 'https://images.unsplash.com/photo-1576091160550-2173dba999ef?w=800&h=400&fit=crop',
+    presupuesto: 95000, financiado: 62000,
     tareas: [
-      { id: 't-101', titulo: 'Equipamiento médico básico', monto: 40000, financiado: 32000 },
-      { id: 't-102', titulo: 'Personal y viáticos', monto: 35000, financiado: 25000 },
-      { id: 't-103', titulo: 'Medicamentos y descartables', monto: 20000, financiado: 5000 },
+      { id: 't4', titulo: 'Equipamiento médico básico', monto: 40000, financiado: 32000 },
+      { id: 't5', titulo: 'Personal y viáticos', monto: 35000, financiado: 25000 },
+      { id: 't6', titulo: 'Medicamentos y descartables', monto: 20000, financiado: 5000 },
     ],
   },
   {
-    id: 'p-amb-003',
-    nombre: 'Bosques Urbanos',
-    ongdId: 'ong-002',
-    ongdNombre: 'Verde Vivo',
-    descripcion: 'Plantación de 5000 árboles en zonas urbanas de alta polución.',
+    id: 'p3', nombre: 'Bosques Urbanos Madrid', ongd: 'Verde Vivo',
     categoria: 'Medio Ambiente',
-    imagen: 'https://images.unsplash.com/photo-1501854140801-50d01698950b?q=80&w=1200&auto=format&fit=crop',
-    presupuesto: 120000,
-    financiado: 41000,
+    descripcion: 'Plantación de 5.000 árboles en zonas urbanas de alta polución en Madrid y Barcelona.',
+    imagen: 'https://images.unsplash.com/photo-1501854140801-50d01698950b?w=800&h=400&fit=crop',
+    presupuesto: 120000, financiado: 41000,
     tareas: [
-      { id: 't-201', titulo: 'Vivero y plantines', monto: 50000, financiado: 20000 },
-      { id: 't-202', titulo: 'Logística y herramientas', monto: 30000, financiado: 12000 },
-      { id: 't-203', titulo: 'Mantenimiento 12 meses', monto: 40000, financiado: 9000 },
+      { id: 't7', titulo: 'Vivero y plantines', monto: 50000, financiado: 20000 },
+      { id: 't8', titulo: 'Logística y herramientas', monto: 30000, financiado: 12000 },
+      { id: 't9', titulo: 'Mantenimiento 12 meses', monto: 40000, financiado: 9000 },
     ],
   },
 ]
 
-function percent(a: number, b: number) {
-  return b <= 0 ? 0 : Math.min(100, Math.round((a / b) * 100))
-}
+const pct = (a: number, b: number) => (b <= 0 ? 0 : Math.min(100, Math.round((a / b) * 100)))
+const eur = (n: number) => new Intl.NumberFormat('es-ES', { style: 'currency', currency: 'EUR', maximumFractionDigits: 0 }).format(n)
 
-function currency(n: number) {
-  return new Intl.NumberFormat('es-ES', { style: 'currency', currency: 'EUR', maximumFractionDigits: 0 }).format(n)
-}
-
-// DRAFT: Componente Formulario de alta
-function ProyectoForm({ onCreate }: { onCreate: (p: Proyecto) => void }) {
-  const [form, setForm] = useState({
-    nombre: '',
-    ongdNombre: '',
-    categoria: 'Educación' as Proyecto['categoria'],
-    presupuesto: 0,
-    descripcion: '',
-    imagen: '',
-  })
-
-  function handleChange(e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) {
-    const { name, value } = e.target
-    setForm((f) => ({ ...f, [name]: name === 'presupuesto' ? Number(value) : value }))
-  }
-
-  function submitMock(e: React.FormEvent) {
-    e.preventDefault()
-    // DRAFT: aquí se conectará a acción server/endpoint o seed insert
-    const nuevo: Proyecto = {
-      id: 'p-' + Math.random().toString(36).slice(2, 8),
-      nombre: form.nombre || 'Proyecto sin título',
-      ongdId: 'ong-custom',
-      ongdNombre: form.ongdNombre || 'ONGD',
-      descripcion: form.descripcion || 'Descripción pendiente',
-      categoria: form.categoria,
-      imagen: form.imagen || '/og-default.jpg',
-      presupuesto: form.presupuesto || 10000,
-      financiado: 0,
-      tareas: [
-        { id: 't-a', titulo: 'Tarea inicial', monto: Math.max(1000, Math.round((form.presupuesto || 10000) * 0.3)), financiado: 0 },
-        { id: 't-b', titulo: 'Tarea de soporte', monto: Math.max(1000, Math.round((form.presupuesto || 10000) * 0.2)), financiado: 0 },
-      ],
-    }
-    onCreate(nuevo)
-    setForm({ nombre: '', ongdNombre: '', categoria: 'Educación', presupuesto: 0, descripcion: '', imagen: '' })
-  }
-
-  return (
-    <form onSubmit={submitMock} className="rounded-2xl border border-white/10 bg-white/5 p-4 md:p-6 backdrop-blur">
-      <h2 className="mb-4 flex items-center gap-2 text-lg font-semibold">
-        <PlusCircle className="h-5 w-5 text-orange-400" /> Alta de proyecto (DRAFT)
-      </h2>
-      <div className="grid gap-4 md:grid-cols-2">
-        <label className="grid gap-1">
-          <span className="text-xs text-white/70">Nombre del proyecto</span>
-          <input name="nombre" value={form.nombre} onChange={handleChange} placeholder="Ej. Aulas Digitales Rurales" className="rounded-md border border-white/10 bg-black/20 px-3 py-2 text-sm outline-none focus:ring-2 focus:ring-orange-500" />
-        </label>
-        <label className="grid gap-1">
-          <span className="text-xs text-white/70">ONGD</span>
-          <input name="ongdNombre" value={form.ongdNombre} onChange={handleChange} placeholder="Ej. Fundación Horizonte" className="rounded-md border border-white/10 bg-black/20 px-3 py-2 text-sm outline-none focus:ring-2 focus:ring-orange-500" />
-        </label>
-        <label className="grid gap-1">
-          <span className="text-xs text-white/70">Categoría</span>
-          <select name="categoria" value={form.categoria} onChange={handleChange} className="rounded-md border border-white/10 bg-black/20 px-3 py-2 text-sm outline-none focus:ring-2 focus:ring-orange-500">
-            <option>Educación</option>
-            <option>Salud</option>
-            <option>Medio Ambiente</option>
-            <option>Desarrollo</option>
-          </select>
-        </label>
-        <label className="grid gap-1">
-          <span className="text-xs text-white/70">Presupuesto (EUR)</span>
-          <input type="number" name="presupuesto" value={form.presupuesto} onChange={handleChange} placeholder="60000" className="rounded-md border border-white/10 bg-black/20 px-3 py-2 text-sm outline-none focus:ring-2 focus:ring-orange-500" />
-        </label>
-        <label className="md:col-span-2 grid gap-1">
-          <span className="text-xs text-white/70">Descripción</span>
-          <textarea name="descripcion" value={form.descripcion} onChange={handleChange} placeholder="Breve descripción del proyecto" className="rounded-md border border-white/10 bg-black/20 px-3 py-2 text-sm outline-none focus:ring-2 focus:ring-orange-500" />
-        </label>
-        <label className="md:col-span-2 grid gap-1">
-          <span className="text-xs text-white/70">URL de imagen</span>
-          <input name="imagen" value={form.imagen} onChange={handleChange} placeholder="https://..." className="rounded-md border border-white/10 bg-black/20 px-3 py-2 text-sm outline-none focus:ring-2 focus:ring-orange-500" />
-        </label>
-      </div>
-      <div className="mt-4 flex justify-end">
-        <button type="submit" className="inline-flex items-center gap-2 rounded-full bg-orange-500 px-4 py-2 text-sm font-medium text-black shadow-lg shadow-orange-500/30 transition hover:bg-orange-400">
-          <ArrowRight className="h-4 w-4" /> Crear (mock)
-        </button>
-      </div>
-    </form>
-  )
-}
-
-// DRAFT: Lista de proyectos con % financiado
-function ProyectoCard({ p, onSelect }: { p: Proyecto; onSelect: (id: string) => void }) {
-  const pct = useMemo(() => percent(p.financiado, p.presupuesto), [p.financiado, p.presupuesto])
-  return (
-    <article className="group relative overflow-hidden rounded-2xl border border-white/10 bg-white/5 backdrop-blur-md transition hover:border-white/20 hover:bg-white/10">
-      <div className="relative h-40 w-full overflow-hidden">
-        <Image alt={p.nombre} src={p.imagen} fill className="object-cover transition duration-500 group-hover:scale-105" />
-        <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
-      </div>
-      <div className="p-5">
-        <div className="mb-3 flex items-center gap-2">
-          <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-white/10">
-            <Users className="h-6 w-6 text-white" />
-          </div>
-          <span className="rounded-full bg-orange-500/20 px-2 py-0.5 text-xs text-orange-300">{p.categoria}</span>
-        </div>
-        <h3 className="text-lg font-semibold text-orange-400">{p.nombre}</h3>
-        <p className="mt-1 text-xs text-white/70">{p.ongdNombre}</p>
-        <p className="mt-2 text-sm text-white/80 line-clamp-2">{p.descripcion}</p>
-        <div className="mt-4">
-          <div className="mb-2 flex items-center justify-between text-xs text-white/70">
-            <span>{currency(p.financiado)} / {currency(p.presupuesto)}</span>
-            <span>{pct}%</span>
-          </div>
-          <div className="h-2 w-full overflow-hidden rounded-full bg-white/10">
-            <div className="h-2 rounded-full bg-orange-500" style={{ width: `${pct}%` }} />
-          </div>
-          <div className="mt-4 flex gap-2">
-            <button onClick={() => onSelect(p.id)} className="inline-flex items-center gap-2 rounded-full bg-white/10 px-3 py-1.5 text-xs hover:bg-white/20">
-              <ListTodo className="h-4 w-4" /> Ver tareas
-            </button>
-            <Link href={`/proyecto/${p.id}`} className="inline-flex items-center gap-2 rounded-full bg-orange-500 px-3 py-1.5 text-xs text-black hover:bg-orange-400">
-              <ArrowRight className="h-4 w-4" /> Abrir
-            </Link>
-          </div>
-        </div>
-      </div>
-    </article>
-  )
-}
-
-// DRAFT: Detalle de tareas
-function TareasPanel({ proyecto }: { proyecto: Proyecto }) {
-  return (
-    <div className="rounded-2xl border border-white/10 bg-white/5 p-4 md:p-6">
-      <h3 className="mb-4 flex items-center gap-2 text-base font-semibold">
-        <ListTodo className="h-5 w-5 text-orange-400" /> Tareas de "{proyecto.nombre}"
-      </h3>
-      <ul className="space-y-3">
-        {proyecto.tareas.map((t) => {
-          const pct = percent(t.financiado, t.monto)
-          const completa = pct >= 100
-          return (
-            <li key={t.id} className="rounded-lg border border-white/10 bg-black/20 p-3">
-              <div className="flex items-start justify-between gap-4">
-                <div>
-                  <p className="text-sm font-medium text-white">{t.titulo}</p>
-                  <p className="text-xs text-white/70">{currency(t.financiado)} / {currency(t.monto)} · {pct}%</p>
-                </div>
-                <div className="shrink-0">
-                  {completa ? (
-                    <CheckCircle2 className="h-5 w-5 text-green-400" />
-                  ) : (
-                    <CircleDashed className="h-5 w-5 text-white/60" />
-                  )}
-                </div>
-              </div>
-              <div className="mt-2 h-1.5 w-full overflow-hidden rounded-full bg-white/10">
-                <div className={`h-1.5 rounded-full ${completa ? 'bg-green-400' : 'bg-orange-500'}`} style={{ width: `${pct}%` }} />
-              </div>
-            </li>
-          )
-        })}
-      </ul>
-    </div>
-  )
-}
-
-// Layout local de la página (manteniendo estilo actual)
-function Layout({ children }: { children: React.ReactNode }) {
-  return (
-    <div className="relative min-h-screen w-full overflow-x-hidden bg-black text-white">
-      <video autoPlay muted loop playsInline className="fixed inset-0 h-full w-full object-cover opacity-30" src="/video/bg-loop.mp4" />
-      <div className="pointer-events-none fixed inset-0 bg-gradient-to-b from-black/50 via-black/20 to-black/80" />
-      <header className="sticky top-0 z-20 w-full backdrop-blur supports-[backdrop-filter]:bg-black/30 bg-black/20">
-        <div className="mx-auto flex max-w-7xl items-center justify-between px-6 py-3">
-          <Link className="flex items-center gap-3" href="/">
-
-            <Image
-              alt="3SN"
-              className="rounded-full ring-1 ring-white/20"
-              height={36}
-              src="/logo.svg"
-              width={36}
-            />
-            <span className="text-lg font-semibold tracking-tight text-orange-500">3SN Portal RSC</span>
-          </Link>
-          <nav className="hidden gap-6 md:flex">
-            <Link className="text-sm text-white/80 hover:text-orange-400 transition-colors" href="/">
-              Inicio
-            </Link>
-            <Link className="text-sm text-white/80 hover:text-orange-400 transition-colors" href="/busqueda">
-              Búsqueda
-            </Link>
-            <Link className="text-sm text-white/80 hover:text-orange-400 transition-colors" href="/financiador">
-              Financiadores
-            </Link>
-            <Link className="text-sm text-orange-400 transition-colors" href="/ongd">
-              ONGDs
-            </Link>
-          </nav>
-        </div>
-      </header>
-      <main className="relative z-10 mx-auto w-full max-w-7xl px-6 pb-24 pt-8 md:pt-16">
-        {children}
-      </main>
-      <footer className="relative z-10 border-t border-white/10 bg-black/30 py-8 backdrop-blur">
-        <div className="mx-auto max-w-7xl px-6 text-center">
-          <p className="text-sm text-gray-400">
-            © 2025 3SN Portal RSC. Conectando impacto social con financiación sostenible.
-          </p>
-        </div>
-      </footer>
-    </div>
-  )
-}
+const CATS = ['Todos', 'Educación', 'Salud', 'Medio Ambiente']
 
 export default function ONGDPage() {
-  const [proyectos, setProyectos] = useState(proyectosMock)
-  const [selectedId, setSelectedId] = useState<string | null>(null)
-  const selectedProyecto = proyectos.find((p) => p.id === selectedId)
+  const [catFiltro, setCatFiltro] = useState('Todos')
+  const [selId, setSelId] = useState<string | null>(null)
+  const [form, setForm] = useState({ nombre: '', ongd: '', categoria: 'Educación', presupuesto: '', descripcion: '' })
+  const [lista, setLista] = useState(proyectos)
+  const [enviado, setEnviado] = useState(false)
 
-  function handleCreate(nuevo: Proyecto) {
-    setProyectos((prev) => [nuevo, ...prev])
+  const filtrados = lista.filter(p => catFiltro === 'Todos' || p.categoria === catFiltro)
+  const seleccionado = lista.find(p => p.id === selId)
+
+  function handleSubmit(e: React.FormEvent) {
+    e.preventDefault()
+    const nuevo: Proyecto = {
+      id: 'p' + Date.now(), nombre: form.nombre || 'Nuevo proyecto',
+      ongd: form.ongd || 'Mi ONGD', categoria: form.categoria,
+      descripcion: form.descripcion || 'Proyecto de impacto social.',
+      imagen: 'https://images.unsplash.com/photo-1593113598332-cd288d649433?w=800&h=400&fit=crop',
+      presupuesto: Number(form.presupuesto) || 10000, financiado: 0,
+      tareas: [{ id: 'ta', titulo: 'Tarea inicial', monto: Number(form.presupuesto) || 10000, financiado: 0 }],
+    }
+    setLista(prev => [nuevo, ...prev])
+    setEnviado(true)
+    setForm({ nombre: '', ongd: '', categoria: 'Educación', presupuesto: '', descripcion: '' })
+    setTimeout(() => setEnviado(false), 3000)
   }
 
   return (
-    <Layout>
-      <div className="space-y-12">
-        <div className="text-center">
-          <h1 className="mb-4 text-4xl font-bold tracking-tight md:text-5xl">
-            Panel <span className="text-orange-500">ONGD</span>
-          </h1>
-          <p className="mx-auto max-w-2xl text-lg text-gray-300">
-            Gestiona tus proyectos de impacto social y visualiza el estado de financiamiento en tiempo real.
-          </p>
+    <div style={{ minHeight: '100vh', background: '#0a0a0a', color: '#fff' }}>
+      {/* Hero */}
+      <div style={{ position: 'relative', height: 280, overflow: 'hidden' }}>
+        <Image src="https://images.unsplash.com/photo-1488521787991-ed7bbaae773c?w=1400&h=400&fit=crop" alt="ONGDs" fill style={{ objectFit: 'cover', opacity: 0.35 }} />
+        <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to bottom, rgba(0,0,0,0.3), #0a0a0a)' }} />
+        <div style={{ position: 'relative', zIndex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', height: '100%', textAlign: 'center', padding: '0 1.5rem' }}>
+          <span style={{ background: 'rgba(255,153,0,0.15)', border: '1px solid rgba(255,153,0,0.4)', borderRadius: 20, padding: '0.3rem 1rem', fontSize: 13, color: '#FF9900', marginBottom: '1rem' }}>Panel ONGD</span>
+          <h1 style={{ fontSize: '2.5rem', fontWeight: 800, margin: 0, lineHeight: 1.1 }}>Gestiona tus <span style={{ color: '#FF9900' }}>Proyectos</span></h1>
+          <p style={{ marginTop: '0.75rem', color: 'rgba(255,255,255,0.7)', maxWidth: 520, fontSize: '1.05rem' }}>Publica proyectos, rastrea el avance de financiación por tareas y conecta con financiadores RSC.</p>
+        </div>
+      </div>
+
+      <div style={{ maxWidth: 1200, margin: '0 auto', padding: '2rem 1.5rem' }}>
+
+        {/* Formulario alta */}
+        <div style={{ background: 'rgba(255,153,0,0.05)', border: '1px solid rgba(255,153,0,0.2)', borderRadius: 16, padding: '1.5rem', marginBottom: '3rem' }}>
+          <h2 style={{ margin: '0 0 1.25rem', fontSize: '1.25rem', color: '#FF9900' }}>➕ Registrar nuevo proyecto</h2>
+          {enviado && (
+            <div style={{ background: 'rgba(34,197,94,0.15)', border: '1px solid rgba(34,197,94,0.4)', borderRadius: 8, padding: '0.75rem 1rem', marginBottom: '1rem', color: '#4ade80', fontSize: 14 }}>
+              ✓ Proyecto registrado correctamente
+            </div>
+          )}
+          <form onSubmit={handleSubmit}>
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', gap: '1rem' }}>
+              {[{ label: 'Nombre del proyecto', key: 'nombre', placeholder: 'Ej. Aulas Digitales Rurales' },
+                { label: 'ONGD responsable', key: 'ongd', placeholder: 'Ej. Fundación Horizonte' },
+                { label: 'Presupuesto (EUR)', key: 'presupuesto', placeholder: 'Ej. 60000', type: 'number' }]
+                .map(f => (
+                  <label key={f.key} style={{ display: 'flex', flexDirection: 'column', gap: '0.4rem' }}>
+                    <span style={{ fontSize: 12, color: 'rgba(255,255,255,0.6)' }}>{f.label}</span>
+                    <input
+                      type={f.type || 'text'}
+                      placeholder={f.placeholder}
+                      value={(form as any)[f.key]}
+                      onChange={e => setForm(prev => ({ ...prev, [f.key]: e.target.value }))}
+                      style={{ background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.15)', borderRadius: 8, padding: '0.6rem 0.875rem', color: '#fff', fontSize: 14, outline: 'none' }}
+                    />
+                  </label>
+                ))}
+              <label style={{ display: 'flex', flexDirection: 'column', gap: '0.4rem' }}>
+                <span style={{ fontSize: 12, color: 'rgba(255,255,255,0.6)' }}>Categoría</span>
+                <select value={form.categoria} onChange={e => setForm(prev => ({ ...prev, categoria: e.target.value }))}
+                  style={{ background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.15)', borderRadius: 8, padding: '0.6rem 0.875rem', color: '#fff', fontSize: 14 }}>
+                  <option>Educación</option><option>Salud</option><option>Medio Ambiente</option><option>Desarrollo</option>
+                </select>
+              </label>
+              <label style={{ display: 'flex', flexDirection: 'column', gap: '0.4rem', gridColumn: '1 / -1' }}>
+                <span style={{ fontSize: 12, color: 'rgba(255,255,255,0.6)' }}>Descripción</span>
+                <textarea placeholder="Breve descripción del proyecto y su impacto..."
+                  value={form.descripcion}
+                  onChange={e => setForm(prev => ({ ...prev, descripcion: e.target.value }))}
+                  rows={2}
+                  style={{ background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.15)', borderRadius: 8, padding: '0.6rem 0.875rem', color: '#fff', fontSize: 14, outline: 'none', resize: 'vertical' }}
+                />
+              </label>
+            </div>
+            <div style={{ display: 'flex', justifyContent: 'flex-end', marginTop: '1rem' }}>
+              <button type="submit" style={{ background: '#FF9900', color: '#000', fontWeight: 700, border: 'none', borderRadius: 8, padding: '0.7rem 1.5rem', fontSize: 14, cursor: 'pointer' }}>
+                Publicar proyecto
+              </button>
+            </div>
+          </form>
         </div>
 
-        <ProyectoForm onCreate={handleCreate} />
-
-        <div>
-          <h2 className="mb-6 text-2xl font-semibold">Proyectos Activos</h2>
-          <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-            {proyectos.map((p) => (
-              <ProyectoCard key={p.id} p={p} onSelect={setSelectedId} />
-            ))}
-          </div>
+        {/* Filtros */}
+        <div style={{ display: 'flex', gap: '0.75rem', flexWrap: 'wrap', marginBottom: '1.5rem', alignItems: 'center' }}>
+          <h2 style={{ margin: 0, fontSize: '1.5rem', fontWeight: 700, marginRight: '0.5rem' }}>Proyectos activos</h2>
+          {CATS.map(c => (
+            <button key={c} onClick={() => setCatFiltro(c)}
+              style={{ padding: '0.4rem 1rem', borderRadius: 20, border: catFiltro === c ? 'none' : '1px solid rgba(255,153,0,0.3)', background: catFiltro === c ? '#FF9900' : 'transparent', color: catFiltro === c ? '#000' : 'rgba(255,255,255,0.7)', fontSize: 13, cursor: 'pointer', fontWeight: catFiltro === c ? 700 : 400 }}>
+              {c}
+            </button>
+          ))}
         </div>
 
-        {selectedProyecto && (
-          <div>
-            <h2 className="mb-6 text-2xl font-semibold">Detalle de Tareas</h2>
-            <TareasPanel proyecto={selectedProyecto} />
+        {/* Grid proyectos */}
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(320px, 1fr))', gap: '1.5rem', marginBottom: '3rem' }}>
+          {filtrados.map(p => {
+            const porcentaje = pct(p.financiado, p.presupuesto)
+            const isSelected = selId === p.id
+            return (
+              <div key={p.id} style={{ borderRadius: 16, overflow: 'hidden', border: isSelected ? '2px solid #FF9900' : '1px solid rgba(255,255,255,0.1)', background: 'rgba(255,255,255,0.04)', transition: 'border 0.2s' }}>
+                <div style={{ position: 'relative', height: 180 }}>
+                  <Image src={p.imagen} alt={p.nombre} fill style={{ objectFit: 'cover' }} />
+                  <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to top, rgba(0,0,0,0.7), transparent)' }} />
+                  <span style={{ position: 'absolute', top: 12, left: 12, background: 'rgba(0,0,0,0.6)', backdropFilter: 'blur(8px)', border: '1px solid rgba(255,153,0,0.4)', borderRadius: 20, padding: '0.25rem 0.75rem', fontSize: 12, color: '#FF9900' }}>{p.categoria}</span>
+                </div>
+                <div style={{ padding: '1.25rem' }}>
+                  <h3 style={{ margin: '0 0 0.25rem', fontSize: '1.05rem', fontWeight: 700 }}>{p.nombre}</h3>
+                  <p style={{ margin: '0 0 0.75rem', fontSize: 12, color: 'rgba(255,255,255,0.5)' }}>por {p.ongd}</p>
+                  <p style={{ margin: '0 0 1rem', fontSize: 13, color: 'rgba(255,255,255,0.75)', lineHeight: 1.5 }}>{p.descripcion}</p>
+                  {/* Barra de progreso */}
+                  <div style={{ marginBottom: '0.5rem' }}>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 12, color: 'rgba(255,255,255,0.6)', marginBottom: '0.4rem' }}>
+                      <span>{eur(p.financiado)} recaudados</span>
+                      <span style={{ color: porcentaje >= 75 ? '#4ade80' : porcentaje >= 40 ? '#FF9900' : '#f87171' }}>{porcentaje}%</span>
+                    </div>
+                    <div style={{ height: 6, background: 'rgba(255,255,255,0.1)', borderRadius: 3, overflow: 'hidden' }}>
+                      <div style={{ height: '100%', width: `${porcentaje}%`, background: porcentaje >= 75 ? '#4ade80' : '#FF9900', borderRadius: 3, transition: 'width 0.5s' }} />
+                    </div>
+                    <p style={{ fontSize: 11, color: 'rgba(255,255,255,0.4)', margin: '0.3rem 0 0' }}>Objetivo: {eur(p.presupuesto)}</p>
+                  </div>
+                  <div style={{ display: 'flex', gap: '0.75rem', marginTop: '1rem' }}>
+                    <button onClick={() => setSelId(isSelected ? null : p.id)}
+                      style={{ flex: 1, padding: '0.6rem', borderRadius: 8, border: '1px solid rgba(255,153,0,0.4)', background: isSelected ? 'rgba(255,153,0,0.15)' : 'transparent', color: '#FF9900', fontSize: 13, cursor: 'pointer', fontWeight: 600 }}>
+                      {isSelected ? 'Ocultar tareas' : 'Ver tareas'}
+                    </button>
+                  </div>
+                </div>
+              </div>
+            )
+          })}
+        </div>
+
+        {/* Panel de tareas */}
+        {seleccionado && (
+          <div style={{ background: 'rgba(255,153,0,0.05)', border: '1px solid rgba(255,153,0,0.25)', borderRadius: 16, padding: '1.5rem', marginBottom: '2rem' }}>
+            <h3 style={{ margin: '0 0 1.25rem', color: '#FF9900', fontSize: '1.15rem' }}>Tareas: {seleccionado.nombre}</h3>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
+              {seleccionado.tareas.map(t => {
+                const tp = pct(t.financiado, t.monto)
+                return (
+                  <div key={t.id} style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: 10, padding: '1rem' }}>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '0.5rem' }}>
+                      <div>
+                        <p style={{ margin: 0, fontWeight: 600, fontSize: 14 }}>{t.titulo}</p>
+                        <p style={{ margin: '0.2rem 0 0', fontSize: 12, color: 'rgba(255,255,255,0.5)' }}>{eur(t.financiado)} / {eur(t.monto)}</p>
+                      </div>
+                      <span style={{ fontSize: 13, fontWeight: 700, color: tp >= 100 ? '#4ade80' : tp >= 50 ? '#FF9900' : '#f87171' }}>{tp}%</span>
+                    </div>
+                    <div style={{ height: 4, background: 'rgba(255,255,255,0.1)', borderRadius: 2 }}>
+                      <div style={{ height: '100%', width: `${tp}%`, background: tp >= 100 ? '#4ade80' : '#FF9900', borderRadius: 2 }} />
+                    </div>
+                  </div>
+                )
+              })}
+            </div>
           </div>
         )}
+
       </div>
-    </Layout>
+    </div>
   )
 }
