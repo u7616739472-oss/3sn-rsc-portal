@@ -2,16 +2,13 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { createClient } from '@/lib/supabase';
-import Link from 'next/link';
+import { supabase } from '@/lib/supabase';import Link from 'next/link';
 
 export default function RegistroPage() {
   const router = useRouter();
   const [paso, setPaso] = useState(1);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
-  const supabase = createClient();
-
   // Datos del usuario
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
