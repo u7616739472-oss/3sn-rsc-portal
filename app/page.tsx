@@ -37,7 +37,7 @@ export default function HomePage() {
 
       {/* HERO */}
       <section style={{ position: 'relative', minHeight: '90vh', display: 'flex', alignItems: 'center', justifyContent: 'center', overflow: 'hidden', background: 'linear-gradient(135deg, #0a0a0a 0%, #1a1200 50%, #0a0a0a 100%)' }}>
-        <div style={{ position: 'absolute', inset: 0, backgroundImage: 'url(https://images.unsplash.com/photo-1559027615-cd4628902d4a?w=1600&q=80)', backgroundSize: 'cover', backgroundPosition: 'center', opacity: 0.15 }} />
+        <div style={{ position: 'absolute', inset: 0, backgroundImage: 'url(https://images.unsplash.com/photo-1646223554770-4954987f9656?w=1600&q=80)', backgroundSize: 'cover', backgroundPosition: 'center', opacity: 0.15 }} />
         <div style={{ position: 'relative', zIndex: 1, textAlign: 'center', padding: '4rem 2rem', maxWidth: 900 }}>
           <div style={{ display: 'inline-block', background: 'rgba(255,153,0,0.15)', border: '1px solid rgba(255,153,0,0.4)', borderRadius: 20, padding: '0.4rem 1.2rem', marginBottom: '2rem', fontSize: '0.85rem', color: '#FF9900' }}>
             Plataforma de impacto social verificado
