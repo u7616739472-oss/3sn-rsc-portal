@@ -2,9 +2,8 @@
 
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { createClient } from '@/lib/supabase';
+import { supabase } from '@/lib/supabase';
 import Link from 'next/link';
-
 export default function PrivadoLayout({
   children,
 }: {
@@ -13,8 +12,6 @@ export default function PrivadoLayout({
   const router = useRouter();
   const [loading, setLoading] = useState(true);
   const [user, setUser] = useState<any>(null);
-  const supabase = createClient();
-
   useEffect(() => {
     const checkSession = async () => {
       const { data: { session } } = await supabase.auth.getSession();
