@@ -115,14 +115,19 @@ export default function NuevoProyectoPage() {
 
       // Registrar en blockchain
       if (lineaGuardada) {
-        const hash = await registrarEnBlockchain(
-          `Proyecto: ${proyecto.titulo} - Línea: ${linea.titulo}`,
-          JSON.stringify(linea)
-        );
+        const record = await registrarEnBlockchain({
+          proyectoId: proyecto.id,
+          lineaId: lineaGuardada.id,
+          tipo: 'linea_trabajo',
+          titulo: `Proyecto: ${proyecto.titulo} - Línea: ${linea.titulo}`,
+          contenidoHash: JSON.stringify(linea),
+          timestamp: new Date().toISOString(),
+          ongdId: 'ongd-temp-id' // TODO: obtener del contexto de sesión
+        });
         await supabase
           .from('lineas_trabajo')
           .update({
-            blockchain_hash: hash,
+            blockchain_hash: record.hash,
             blockchain_timestamp: new Date().toISOString(),
           })
           .eq('id', lineaGuardada.id);
