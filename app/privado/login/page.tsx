@@ -2,8 +2,7 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { createClient } from '@/lib/supabase';
-import Link from 'next/link';
+import { supabase } from '@/lib/supabase';import Link from 'next/link';
 
 export default function LoginPage() {
   const router = useRouter();
@@ -13,7 +12,6 @@ export default function LoginPage() {
   const [error, setError] = useState('');
   const [mode, setMode] = useState<'login' | 'magic'>('login');
   const [sent, setSent] = useState(false);
-  const supabase = createClient();
 
   const handleEmailLogin = async (e: React.FormEvent) => {
     e.preventDefault();
