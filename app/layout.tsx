@@ -22,7 +22,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             <Link href="/busqueda" style={{ color: 'rgba(255,255,255,0.7)', textDecoration: 'none', padding: '0.4rem 0.85rem', borderRadius: 8, fontSize: '0.9rem', fontWeight: 500 }}>Proyectos</Link>
             <Link href="/destacados" style={{ color: 'rgba(255,255,255,0.7)', textDecoration: 'none', padding: '0.4rem 0.85rem', borderRadius: 8, fontSize: '0.9rem', fontWeight: 500 }}>Destacados</Link>
             <Link href="/financiador" style={{ color: 'rgba(255,255,255,0.7)', textDecoration: 'none', padding: '0.4rem 0.85rem', borderRadius: 8, fontSize: '0.9rem', fontWeight: 500 }}>Financiadores</Link>
-            <Link href="/ongd" style={{ background: '#FF9900', color: '#000', textDecoration: 'none', padding: '0.45rem 1rem', borderRadius: 8, fontSize: '0.9rem', fontWeight: 700, marginLeft: '0.5rem' }}>Panel ONGD</Link>
+            <Link href="/privado/login" style={{ background: '#FF9900', color: '#000', textDecoration: 'none', padding: '0.45rem 1rem', borderRadius: 8, fontSize: '0.9rem', fontWeight: 700, marginLeft: '0.5rem' }}>Panel ONGD</Link>
           </nav>
         </header>
         <div style={{ minHeight: 'calc(100vh - 64px)' }}>{children}</div>
@@ -37,7 +37,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
               <Link href="/busqueda" style={{ color: 'rgba(255,255,255,0.5)', textDecoration: 'none', fontSize: '0.85rem' }}>Proyectos</Link>
               <Link href="/destacados" style={{ color: 'rgba(255,255,255,0.5)', textDecoration: 'none', fontSize: '0.85rem' }}>Destacados</Link>
               <Link href="/financiador" style={{ color: 'rgba(255,255,255,0.5)', textDecoration: 'none', fontSize: '0.85rem' }}>Financiadores</Link>
-              <Link href="/ongd" style={{ color: 'rgba(255,255,255,0.5)', textDecoration: 'none', fontSize: '0.85rem' }}>Panel ONGD</Link>
+              <Link href="/privado/login" style={{ color: 'rgba(255,255,255,0.5)', textDecoration: 'none', fontSize: '0.85rem' }}>Panel ONGD</Link>
             </nav>
             <span style={{ color: 'rgba(255,255,255,0.3)', fontSize: '0.82rem' }}>2025 3SN Portal RSC. Transformando el impacto social.</span>
           </div>
