@@ -2,8 +2,7 @@
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import * as AI from '@/lib/ai';
-import { registrarEvidencia } from '@/lib/blockchain';
-
+import { registrarEnBlockchain } from '@/lib/blockchain';
 export default function NuevoProyectoPage() {
   const router = useRouter();
   const [paso, setPaso] = useState(1);
