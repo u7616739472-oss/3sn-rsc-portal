@@ -169,6 +169,18 @@ export default function LoginPage() {
         </div>
 
         <p className="text-center text-xs text-gray-500 mt-6">
+
+                  <div className="bg-blue-900/10 border border-blue-700/30 rounded-xl p-6 text-center">
+          <p className="text-white font-medium mb-3">¿Tu ONGD aún no está registrada?</p>
+          <Link
+            href="/privado/registro"
+            className="inline-block bg-blue-600 hover:bg-blue-700 text-white font-medium px-6 py-3 rounded-lg transition-colors"
+          >
+            ✨ Registrar mi ONGD en 3SN
+          </Link>
+          <p className="text-xs text-gray-400 mt-3">Accede a Marco Lógico con IA, Blockchain y financiación</p>
+        </div>
+
           <Link href="/" className="hover:text-gray-300">Volver al portal público</Link>
           {' • '}
           <span>AWS IAM: contacla a tu administrador</span>
