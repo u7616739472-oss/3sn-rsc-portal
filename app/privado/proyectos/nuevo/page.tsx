@@ -3,6 +3,7 @@ import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import * as AI from '@/lib/ai';
 import { registrarEnBlockchain } from '@/lib/blockchain';
+import { supabase } from '@/lib/supabase';
 export default function NuevoProyectoPage() {
   const router = useRouter();
   const [paso, setPaso] = useState(1);
@@ -59,7 +60,6 @@ export default function NuevoProyectoPage() {
 
   const guardarProyecto = async () => {
     setLoading(true);
-    const supabase = createClient();
     const { data: { user } } = await supabase.auth.getUser();
     if (!user) {
       alert('Debes iniciar sesión');
