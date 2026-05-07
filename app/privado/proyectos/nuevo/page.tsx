@@ -115,7 +115,7 @@ export default function NuevoProyectoPage() {
 
       // Registrar en blockchain
       if (lineaGuardada) {
-        const hash = await registrarEvidencia(
+        const hash = await registrarEnBlockchain(
           `Proyecto: ${proyecto.titulo} - Línea: ${linea.titulo}`,
           JSON.stringify(linea)
         );
