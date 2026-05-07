@@ -121,14 +121,14 @@ export default function NuevoProyectoPage() {
           tipo: 'linea_trabajo',
           titulo: `Proyecto: ${proyecto.titulo} - Línea: ${linea.titulo}`,
           contenidoHash: JSON.stringify(linea),
-          timestamp: new Date().toISOString(),
+          timestamp: Date.now(),
           ongdId: 'ongd-temp-id' // TODO: obtener del contexto de sesión
         });
         await supabase
           .from('lineas_trabajo')
           .update({
             blockchain_hash: record.hash,
-            blockchain_timestamp: new Date().toISOString(),
+            blockchain_timestamp: Date.now(),
           })
           .eq('id', lineaGuardada.id);
       }
