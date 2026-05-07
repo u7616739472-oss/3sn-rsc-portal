@@ -2,7 +2,6 @@
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import * as AI from '@/lib/ai';
-import { createClient } from '@/lib/supabase';
 import { registrarEvidencia } from '@/lib/blockchain';
 
 export default function NuevoProyectoPage() {
